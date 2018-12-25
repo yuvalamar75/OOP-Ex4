@@ -23,8 +23,7 @@ public class Ex4_Main_Example {
 		// 1) Create a "play" from a file (attached to Ex4)
 		String file_name = "data/Ex4_OOP_example3.csv";
 		Play play1 = new Play(file_name);
-		System.out.println("Dvir");
-		
+
 		// 2) Set your ID's - of all the group members
 		play1.setIDs(123131,2222222,0000);
 		
