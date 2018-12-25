@@ -33,7 +33,7 @@ public class Fruit {
 	
 	public String toString() {
 		String st = "";
-		st += "\n"+ type+", " + ID + ", " + ", "+", " + point.x() + ", "+ point.y()+" 0" + ", "+ weight;
+		st += "\n"+ type+ ", " + ID + ", " + ", "+", " + point.x() + ", "+ point.y()+" 0" + ", "+ weight;
 		return st;
 		
 	}
