@@ -20,6 +20,14 @@ public class Player {
 		score = 0;
 		
 	}
+
+	public String toString(){
+		String st = "";
+		st += type+", "+ ID+", "+ point.x()+", " + point.y()+", "+ score+", "+ speed +", "+ radius;
+		return st;
+	}
+
+
 	
 
 	public Player( String line ) {

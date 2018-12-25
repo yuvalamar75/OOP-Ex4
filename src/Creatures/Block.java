@@ -41,7 +41,13 @@ public class Block {
 		this.min = b.min;
 		this.max = b.max;
 	}
-	
+
+	public String toString() {
+		String st = "";
+		st += "\n" + type + ", " + ID + ", " + ", " + ", " + min.x() + ", " + min.y() + ", " + max.x() + ", " + max.y();
+		return st;
+
+	}
 	public String getType() {return type;}
 	public void setType(String type) {this.type = type;}
 	public int getID() {return ID;}

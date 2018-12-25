@@ -20,6 +20,13 @@ public class Pacman {
 		radius = Integer.parseInt(data[6]);
 		
 	}
+
+	public String toString() {
+		String st = "";
+		st += "\n"+ type+", " + ID + ", " + point.x() + ", "+ point.y()+" 0" + ", "+ radius +", "+ speed;
+		return st;
+
+	}
 	
 	public Pacman(Pacman p) {
 		this.point = p.point;
@@ -28,6 +35,7 @@ public class Pacman {
 		this.speed = p.speed;
 		this.type = p.type;
 	}
+
 	
 
 
