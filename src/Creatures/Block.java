@@ -3,9 +3,8 @@ package Creatures;
 import Geom.Point3D;
 
 public class Block {
-	private String type;
-	
 
+	private String type;
 	private int ID;
 	private double minLat;
 	private double minLon;
