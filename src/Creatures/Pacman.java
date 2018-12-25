@@ -1,6 +1,6 @@
 package Creatures;
 
-import Geom.Point3D;
+import Accessories.Point3D;
 
 public class Pacman {
 	

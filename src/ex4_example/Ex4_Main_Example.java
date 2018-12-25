@@ -1,6 +1,7 @@
 package ex4_example;
-import java.util.ArrayList;
 import Robot.Play;
+
+import java.util.ArrayList;
 /**
  * This is the basic example of how to work with the Ex4 "server" like system:
  * 1. Create a "play" with one of the 9 attached files 
@@ -21,7 +22,7 @@ import Robot.Play;
 public class Ex4_Main_Example {
 	public static void main(String[] args) {
 		// 1) Create a "play" from a file (attached to Ex4)
-		String file_name = "data/Ex4_OOP_example3.csv";
+		String file_name = "Resources/Ex4_OOP_example3.csv";
 		Play play1 = new Play(file_name);
 
 		// 2) Set your ID's - of all the group members
