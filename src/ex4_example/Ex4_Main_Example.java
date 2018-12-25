@@ -24,6 +24,8 @@ public class Ex4_Main_Example {
 		String file_name = "data/Ex4_OOP_example3.csv";
 		Play play1 = new Play(file_name);
 		System.out.println("Dvir");
+		yuval yuval = new yuval();
+		yuval.yuvalf();
 		
 		// 2) Set your ID's - of all the group members
 		play1.setIDs(123131,2222222,0000);
