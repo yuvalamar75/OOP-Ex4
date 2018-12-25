@@ -3,7 +3,7 @@ public class yuval {
         System.out.println("test");
     }
 
-    public void static yuvalf(){
+    public static void  yuvalf(){
         System.out.println("yuvall");
     }
 }
