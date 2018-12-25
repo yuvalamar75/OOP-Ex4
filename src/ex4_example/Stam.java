@@ -42,12 +42,12 @@ public class Stam {
 						resultSet.getDouble("Point") +"\t\t" +
 						resultSet.getDouble("SomeDouble"));
 			}
-			
-			resultSet.close();		
-			statement.close();		
-			connection.close();		
+
+			resultSet.close();
+			statement.close();
+			connection.close();
 		}
-		
+
 		catch (SQLException sqle) {
 			System.out.println("SQLException: " + sqle.getMessage());
 			System.out.println("Vendor Error: " + sqle.getErrorCode());
