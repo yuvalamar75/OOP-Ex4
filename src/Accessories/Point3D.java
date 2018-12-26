@@ -1,7 +1,7 @@
 package Accessories;
 
 import java.io.Serializable;
-public class Point3D implements Geom_element, Serializable 
+public class Point3D implements Geom_element, Serializable
 {
 	/**
 	 * This class represents a 3D point in space.

@@ -6,18 +6,19 @@ public class Pacman {
 	
 	private Point3D point;
 	private int ID;
-	private int radius;
-	private int speed;
+	private double radius;
+	private double speed;
 	private String type;
 	//private int counter = 0 ;
 	
 	public Pacman(String line) {
+
 		String[] data = line.split(",");
 		type = data[0];
 		ID = Integer.parseInt(data[1]);
-		point = new Point3D(Integer.parseInt(data[2]),Integer.parseInt(data[3]),Integer.parseInt(data[4]));
-		speed = Integer.parseInt(data[5]);
-		radius = Integer.parseInt(data[6]);
+		point = new Point3D(Double.parseDouble(data[3]),Double.parseDouble(data[2]),Double.parseDouble(data[4]));
+		speed = Double.parseDouble(data[5]);
+		radius = Double.parseDouble(data[6]);
 		
 	}
 
@@ -44,9 +45,9 @@ public class Pacman {
 	public void setPoint(Point3D point) {this.point = point;}
 	public int getID() {return ID;}
 	public void setID(int iD) {ID = iD;}
-	public int getRadius() {return radius;}
-	public void setRadius(int radius) {this.radius = radius;}
-	public int getSpeed() {return speed;}
-	public void setSpeed(int speed) {this.speed = speed;}
+	public double getRadius() {return radius;}
+	public void setRadius(double radius) {this.radius = radius;}
+	public double getSpeed() {return speed;}
+	public void setSpeed(double speed) {this.speed = speed;}
 
 }

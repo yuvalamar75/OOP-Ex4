@@ -1,14 +1,14 @@
 package Accessories;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-
 import Creatures.Block;
 import Creatures.Fruit;
 import Creatures.Pacman;
 import Creatures.Player;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class Game {
@@ -27,13 +27,48 @@ public class Game {
 		player = new Player(0,0,0);
 	}
 
+	public Game (ArrayList<String> playersInboard)
+	{	fruits = new ArrayList<>();
+		blocks = new ArrayList<>();
+		pacmans = new ArrayList<>();
+		ghosts = new ArrayList<>();
+
+
+			for (int i=0 ; i< playersInboard.size(); i++ ){
+				String line = playersInboard.get(i);
+
+				if (line.startsWith("M")) {
+					player = new Player(line);
+
+				}
+				if (line.startsWith("P")) {
+					Pacman p = new Pacman(line);
+					pacmans.add(p);
+				}
+				if (line.startsWith("G")) {
+					Pacman g = new Pacman(line);
+					ghosts.add(g);
+				}
+				if (line.startsWith("F")) {
+					Fruit f = new Fruit(line);
+					fruits.add(f);
+				}
+				if (line.startsWith("B")) {
+					Block b = new Block(line);
+					blocks.add(b);
+				}
+
+			}
+	}
+
 	public Game(String path) {
 
 		fruits = new ArrayList<>();
 		blocks = new ArrayList<>();
 		pacmans = new ArrayList<>();
 		ghosts = new ArrayList<>();
-		player = new Player(0,0,0);
+		player = null;
+
 
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(path));
@@ -78,7 +113,7 @@ public class Game {
 		blocks = new ArrayList<>();
 		pacmans = new ArrayList<>();
 		ghosts = new ArrayList<>();
-		player = new Player(0,0,0);
+		player = null;
 		
 		for (int i = 0; i < fruits.size(); i++) {
 			fruits.add(new Fruit(g.getFruits().get(i)));
@@ -93,10 +128,7 @@ public class Game {
 			ghosts.add(new Pacman(g.getGhosts().get(i)));
 		}
 		player = new Player(g.getPlayer());
-		
-		
-		
-		
+
 	}
 	public ArrayList<Fruit> getFruits() {return fruits;}
 	public void setFruits(ArrayList<Fruit> fruits) {this.fruits = fruits;}
