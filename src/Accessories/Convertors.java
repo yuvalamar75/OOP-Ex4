@@ -1,6 +1,6 @@
 package Accessories;
 
-import Geom.Point3D;
+
 
 import java.awt.image.BufferedImage;
 
@@ -15,8 +15,7 @@ import java.awt.image.BufferedImage;
 
 public class Convertors {
 
-
-    private  Map map;
+    private Map map;
     private int height;
     private int width;
     private double TopRightX;
@@ -129,8 +128,8 @@ public class Convertors {
     public  int [] gps2Pixels(Point3D p) {
         // getting the relations
 
-        double relX= CoordsRangeX.relation(p.x());
-        double relY= CoordsRangeY.relation(p.y());
+        double relX= CoordsRangeX.relation(p.get_x());
+        double relY= CoordsRangeY.relation(p.get_y());
 
         //gettings the vals
 

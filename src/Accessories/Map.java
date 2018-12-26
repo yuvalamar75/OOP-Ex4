@@ -5,6 +5,7 @@ package Accessories;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -24,19 +25,20 @@ public class Map {
     private static double topRightY=32.10569;
     private static double leftButtomX=35.20238;
     private static double leftButtomY=32.10190;
+
+
     private int mapWidth;
     private int mapHeight;
 
     public Map(){
         try {
-            myMap = ImageIO.read(getClass().getResourceAsStream("/Resources/Ariel1.png"));
+            myMap = ImageIO.read(new File("Ariel1.png"));
         }catch (IOException e){
             e.printStackTrace();
         }
+
         this.mapHeight = myMap.getHeight();
         this.mapWidth = myMap.getWidth();
-
-        convertor = new Convertors (mapHeight, mapWidth, leftButtomX, topRightX, leftButtomY, topRightY);
 
     }
     /**
@@ -54,7 +56,12 @@ public class Map {
         mapWidth = myMap.getWidth();
         mapHeight = myMap.getHeight();
 
+    }
+
+    public void buildConvertor(){
+
         convertor = new Convertors(mapHeight ,mapWidth, leftButtomX, topRightX, leftButtomY, topRightY);
+
     }
     /**
      * 	this function get 2 pixels and return the distance.
@@ -71,21 +78,14 @@ public class Map {
 
     }*/
 
-    public double getMapWidth() {
-        return mapWidth;
-    }
-
-    public double getMapHeight() {
-        return mapHeight;
-    }
-
+    public double getMapWidth() { return mapWidth; }
+    public double getMapHeight() { return mapHeight; }
     public Convertors getConverter() {
         return convertor;
     }
-
-    public BufferedImage getMyMap() {
-        return myMap;
-    }
+    public BufferedImage getMyMap() { return myMap; }
+    public void setMapWidth(int mapWidth) { this.mapWidth = mapWidth; }
+    public void setMapHeight(int mapHeight) { this.mapHeight = mapHeight; }
 
 
 

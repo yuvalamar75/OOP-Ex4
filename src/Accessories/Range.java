@@ -17,19 +17,19 @@ public class Range implements RangeIN {
 	 * @param max get the maximun value
 	 */
 	public Range(double min, double max) {
-		this.min=min;
-		this.max=max;
+		this.min = min;
+		this.max = max;
 	}
 	
 	public Range(int min, int max) {
-		this.min=min;
-		this.max=max;
+		this.min = min;
+		this.max = max;
 	}
 	
 	
 	@Override
 	public double distance() {
-		return max-min;
+		return max - min;
 
 	}
 	

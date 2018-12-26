@@ -1,6 +1,6 @@
 package Creatures;
 
-import Geom.Point3D;
+import Accessories.Point3D;
 
 public class Block {
 
@@ -10,7 +10,7 @@ public class Block {
 	private double minLon;
 	private double maxLat;
 	private double maxLon;
-	private int weight;
+	private double weight;
 	private Point3D min;
 	private Point3D max;
 	
@@ -18,13 +18,14 @@ public class Block {
 		String[] data = line.split(",");
 		type = "B";
 		ID = Integer.parseInt(data[1]);
-		weight = Integer.parseInt(data[8]);
+		weight = Double.parseDouble(data[8]);
 		minLat = Math.min(Double.parseDouble(data[2]),Double.parseDouble(data[5]));
 		minLon = Math.min(Double.parseDouble(data[3]),Double.parseDouble(data[6]));
 		maxLat = Math.max(Double.parseDouble(data[2]),Double.parseDouble(data[5]));
 		maxLon = Math.max(Double.parseDouble(data[3]),Double.parseDouble(data[6]));
-		min = new Point3D(minLat, minLon);
-		max = new Point3D(maxLat, maxLon);
+
+		min = new Point3D(minLon, minLat);
+		max = new Point3D(maxLon,maxLat );
 		
 	}
 	
@@ -59,7 +60,7 @@ public class Block {
 	public void setMaxLat(double maxLat) {this.maxLat = maxLat;}
 	public double getMaxLon() {return maxLon;}
 	public void setMaxLon(double maxLon) {this.maxLon = maxLon;}
-	public int getWeight() {return weight;}
+	public double getWeight() {return weight;}
 	public void setWeight(int weight) {this.weight = weight;}
 	public Point3D getMin() {return min;}
 	public void setMin(Point3D min) {this.min = min;}
