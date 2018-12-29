@@ -39,11 +39,6 @@ public class myFrame extends JFrame {
         addPlayerButton = new MenuItem("Add Player");
         add.add(addPlayerButton);
 
-        addPlayerButton.addActionListener(e -> {
-            System.out.println("------ADD PLAYER----");
-            gameBoard.setAddPlayer(true);
-        });
-
         Menu algo = new Menu("Algo");
         main.add(algo);
 
@@ -55,22 +50,13 @@ public class myFrame extends JFrame {
 
         runStep = new MenuItem("Run Steps");
         run.add(runStep);
-
-        /*
-        doNextStep.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("----STEPS---");
-                gameBoard.setRunStepByStep(true);
-            }
-        });
-        */
     }
 
     @Override
     public int getX() {
         return x;
     }
+
     public MenuItem getRunStep() {
         return runStep;
     }

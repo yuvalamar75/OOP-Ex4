@@ -54,7 +54,6 @@ public class Controller implements Observer {
             initServer();
             firstTimeRun = false;
         }
-
         doNextStep();
     }
 
@@ -66,6 +65,7 @@ public class Controller implements Observer {
         board_data = play.getBoard();
         System.out.println(play.getStatistics());
         Refresh(board_data);
+        // repaint
         board.update();
     }
 
@@ -78,12 +78,11 @@ public class Controller implements Observer {
 
         // If clicked on doNextStep step by step -> doNextStep game
         frame.getRunStep().addActionListener(e -> {
-
             board.setRunStepByStep(true);
         });
 
-        // Controller is observing the mouse click
-        observe(board.getMouseClick());
+        // Controller is observing the next step OBSERVABLE object
+        observe(board.getNextStep());
     }
 
     private void Refresh(ArrayList<String> new_data){

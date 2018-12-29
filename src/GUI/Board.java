@@ -15,9 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Observable;
 
-
 public class Board extends JPanel implements MouseListener {
-
     private  boolean addPlayer, runStepByStep;
 
     private  Point3D clickStep;
@@ -29,7 +27,7 @@ public class Board extends JPanel implements MouseListener {
     private static int y;
 
     // Observable
-    Observable mouseClick = new nextStep();
+    private Observable nextStep = new nextStep();
 
     public Board(Game game, Map map){
         this.game = game;
@@ -52,7 +50,7 @@ public class Board extends JPanel implements MouseListener {
         }
 
         try {
-            pacman = ImageIO.read(new File("pacman2.png"));
+            pacman = ImageIO.read(new File("badpacman.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,7 +62,7 @@ public class Board extends JPanel implements MouseListener {
         }
 
         try {
-            player = ImageIO.read(new File("pacmanP.png"));
+            player = ImageIO.read(new File("packman.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -83,7 +81,6 @@ public class Board extends JPanel implements MouseListener {
             int[] pixels = convertor.gps2Pixels(pac.getPoint());
             g.drawImage(pacman,pixels[0],pixels[1], null);
         }
-
 
         for (Fruit f : game.getFruits()){
 
@@ -106,7 +103,6 @@ public class Board extends JPanel implements MouseListener {
             int heigtDis = pixelsHeight[1] - pixels[1];
 
             g.fillRect(pixels[0], pixels[1], widthDis, heigtDis);
-
         }
 
         if (player != null){
@@ -127,19 +123,22 @@ public class Board extends JPanel implements MouseListener {
         if (addPlayer) {
             Point3D playerPoint = convertor.pixel2Gps(x,y);
             game.getPlayer().setPoint(playerPoint);
+
             clickStep = new Point3D(playerPoint);
             addPlayer = false;
+
+            repaint();
         }
 
+        // On every mouse click, change player location/point
         if (runStepByStep){
 
             Point3D newPoint = convertor.pixel2Gps(x,y);
             clickStep = new Point3D(newPoint);
 
             // Updates observers -> Controller
-            ((nextStep) mouseClick).setPoint(clickStep);
+            ((nextStep) nextStep).setPoint(clickStep);
         }
-         repaint();
     }
 
     @Override
@@ -162,7 +161,7 @@ public class Board extends JPanel implements MouseListener {
     public  Point3D getClickStep() { return clickStep; }
     public  void setClickStep(Point3D clickStep) { this.clickStep = clickStep; }
 
-    public Observable getMouseClick() {
-        return mouseClick;
+    public Observable getNextStep() {
+        return nextStep;
     }
 }
