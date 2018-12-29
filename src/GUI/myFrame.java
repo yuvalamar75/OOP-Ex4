@@ -9,7 +9,7 @@ public class myFrame extends JFrame {
     private int x;
     private int y;
     private Board gameBoard;
-
+    private MenuItem loadGame;
     private MenuItem runStep;
     private MenuItem addPlayerButton;
 
@@ -30,7 +30,7 @@ public class myFrame extends JFrame {
         Menu load = new Menu("Load Game");
         main.add(load);
 
-        MenuItem loadGame = new MenuItem("Load");
+        loadGame = new MenuItem("Load");
         load.add(loadGame);
 
         Menu add = new Menu("Add");
@@ -56,22 +56,22 @@ public class myFrame extends JFrame {
     public int getX() {
         return x;
     }
-
     public MenuItem getRunStep() {
         return runStep;
     }
-
     public MenuItem getAddPlayerButton() {
         return addPlayerButton;
     }
-
     public Board getGameBoard() { return gameBoard; }
     public void setGameBoard(Board gameBoard) { this.gameBoard = gameBoard; }
+    public MenuItem getLoadGame() { return loadGame; }
+    public void setLoadGame(MenuItem loadGame) { this.loadGame = loadGame; }
     public void setX(int x) { this.x = x; }
     //public boolean isRunB() { return runB; }
    // public void setRunB(boolean runB) { this.runB = runB; }
     @Override
     public int getY() { return y; }
     public void setY(int y) { this.y = y; }
+
 }
 

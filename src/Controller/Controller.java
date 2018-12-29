@@ -9,6 +9,10 @@ import GUI.Board;
 import GUI.myFrame;
 import Robot.Play;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -27,8 +31,8 @@ public class Controller implements Observer {
 
     public Controller(String path){
 
-        play = new Play(path);
-        game = new Game(play.getBoard());
+        //play = new Play(path);
+        game = new Game();
         map = new Map();
         board = new Board(game, map);
         frame = new myFrame(board);
@@ -81,8 +85,35 @@ public class Controller implements Observer {
             board.setRunStepByStep(true);
         });
 
+        // if clicked on loadGame -> initGame
+        frame.getLoadGame().addActionListener(e -> {
+            initGame();
+        });
+
+
+
         // Controller is observing the next step OBSERVABLE object
         observe(board.getNextStep());
+    }
+
+    private void initGame() {
+        JFileChooser jfc = new JFileChooser();
+        String pathFile = "";
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "CSV files (*csv)", "csv");
+        jfc.setFileFilter(filter);
+        int ret = jfc.showOpenDialog(this.frame);
+        if(ret == JFileChooser.APPROVE_OPTION)
+        {
+            File file = jfc.getSelectedFile();
+            pathFile = file.getAbsolutePath();
+
+        }
+
+        play = new Play(pathFile);
+        Refresh(play.getBoard());
+        board.update();
+
     }
 
     private void Refresh(ArrayList<String> new_data){
