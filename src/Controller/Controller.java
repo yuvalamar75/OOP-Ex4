@@ -29,9 +29,8 @@ public class Controller implements Observer {
     private Point3D nextStep;
     private boolean firstTimeRun = true;
 
-    public Controller(String path){
+    public Controller(){
 
-        //play = new Play(path);
         game = new Game();
         map = new Map();
         board = new Board(game, map);
