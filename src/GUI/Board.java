@@ -16,7 +16,9 @@ import java.io.IOException;
 import java.util.Observable;
 
 public class Board extends JPanel implements MouseListener {
-    private  boolean addPlayer, runStepByStep;
+    private  boolean addPlayer;
+    private boolean runStepByStep;
+
 
     private  Point3D clickStep;
     private Game game;
