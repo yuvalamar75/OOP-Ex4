@@ -18,12 +18,15 @@ import java.util.Observable;
 public class Board extends JPanel implements MouseListener {
     private  boolean addPlayer;
     private boolean runStepByStep;
-
+    private boolean autoRun;
 
     private  Point3D clickStep;
     private Game game;
     private Map map;
     private BufferedImage mapImage, cherry, pacman, ghost, player;
+
+
+
     private Convertors convertor;
     private static int x;
     private static int y;
@@ -111,6 +114,8 @@ public class Board extends JPanel implements MouseListener {
             int[] pixels = convertor.gps2Pixels(game.getPlayer().getPoint());
             g.drawImage(player ,pixels[0],pixels[1], null);
         }
+
+
     }
 
     public void update(){
@@ -141,6 +146,16 @@ public class Board extends JPanel implements MouseListener {
             // Updates observers -> Controller
             ((nextStep) nextStep).setPoint(clickStep);
         }
+
+        if (autoRun){
+
+            Point3D newPoint = convertor.pixel2Gps(x,y);
+            clickStep = new Point3D(newPoint);
+
+            // Updates observers -> Controller
+            ((nextStep) nextStep).setPoint(clickStep , game.getPlayer().getPoint());
+
+        }
     }
 
     @Override
@@ -162,6 +177,9 @@ public class Board extends JPanel implements MouseListener {
     public void setRunStepByStep(boolean runStepByStep) { this.runStepByStep = runStepByStep; }
     public  Point3D getClickStep() { return clickStep; }
     public  void setClickStep(Point3D clickStep) { this.clickStep = clickStep; }
+    public boolean isAutoRun() { return autoRun; }
+    public void setAutoRun(boolean autoRun) { this.autoRun = autoRun; }
+    public Convertors getConvertor() { return convertor; }
 
     public Observable getNextStep() {
         return nextStep;

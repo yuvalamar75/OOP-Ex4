@@ -25,9 +25,9 @@ public class Controller implements Observer {
     private Board board;
     private Play play;
     private ArrayList<String> board_data;
-
+    private PlayerThread playerThread;
     private Point3D nextStep;
-    private boolean firstTimeRun = true;
+    private boolean firstTimeRun = true,runThread = false;
 
     public Controller(){
 
@@ -36,6 +36,7 @@ public class Controller implements Observer {
         board = new Board(game, map);
         frame = new myFrame(board);
         board_data = new ArrayList<>();
+
 
         // Init next step to player's current point
         nextStep = new Point3D(game.getPlayer().getPoint());
@@ -51,23 +52,51 @@ public class Controller implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         nextStep = ((nextStep) o).getPoint();
-        System.out.println("Next step is now: " + nextStep);
 
         if (firstTimeRun) {
             initServer();
             firstTimeRun = false;
+
         }
-        doNextStep();
+
+        if (board.isRunStepByStep()) {
+            doNextStep();
+        }
+
+        if (board.isAutoRun()) {
+            if (!runThread) {
+                RunThread();
+                runThread = true;
+            }
+        }
     }
 
+    /**
+     * create from player -> ThreadPlayer
+     */
+    private void createThread() {
+        playerThread = new PlayerThread(this.getBoard(),this.getPlay());
+    }
+
+    /**
+     * run the Thread
+     */
+
+    private void RunThread() {
+            playerThread.start();
+    }
+
+    /**
+     * do the next step with "stepByStep" button
+     */
     public void doNextStep() {
         System.out.println("> In Run Game");
         MyCoords coords = new MyCoords();
-        double azimut = coords.azimuth_elevation_dist(game.getPlayer().getPoint(), nextStep);
-        play.rotate(azimut);
+        double[] azimut = coords.azimuth_elevation_dist(game.getPlayer().getPoint(), nextStep);
+        play.rotate(azimut[0]);
         board_data = play.getBoard();
         System.out.println(play.getStatistics());
-        Refresh(board_data);
+        game.refresh(board_data);
         // repaint
         board.update();
     }
@@ -82,6 +111,7 @@ public class Controller implements Observer {
         // If clicked on doNextStep step by step -> doNextStep game
         frame.getRunStep().addActionListener(e -> {
             board.setRunStepByStep(true);
+            board.setAutoRun(false);
         });
 
         // if clicked on loadGame -> initGame
@@ -89,11 +119,20 @@ public class Controller implements Observer {
             initGame();
         });
 
+        frame.getAutoRun().addActionListener(e -> {
+            board.setRunStepByStep(false);
+            board.setAutoRun(true);
+            createThread();
+        });
 
 
         // Controller is observing the next step OBSERVABLE object
         observe(board.getNextStep());
     }
+
+    /**
+     *     init game from existing file
+     */
 
     private void initGame() {
         JFileChooser jfc = new JFileChooser();
@@ -110,54 +149,25 @@ public class Controller implements Observer {
         }
 
         play = new Play(pathFile);
-        Refresh(play.getBoard());
+        game.refresh(play.getBoard());
         board.update();
 
     }
 
-    private void Refresh(ArrayList<String> new_data){
 
-        game.getPacmans().clear();
-        game.getBlocks().clear();;
-        game.getGhosts().clear();
-        game.getFruits().clear();
-        game.setPlayer(null);
-
-        for (int i=0 ; i< new_data.size(); i++ ){
-            String line = new_data.get(i);
-
-            if (line.startsWith("M")) {
-                Player player = new Player(line);
-                game.setPlayer(player);
-            }
-            if (line.startsWith("P")) {
-                Pacman p = new Pacman(line);
-                game.getPacmans().add(p);
-            }
-            if (line.startsWith("G")) {
-                Pacman g = new Pacman(line);
-                game.getGhosts().add(g);
-            }
-            if (line.startsWith("F")) {
-                Fruit f = new Fruit(line);
-                game.getFruits().add(f);
-            }
-            if (line.startsWith("B")) {
-                Block b = new Block(line);
-                game.getBlocks().add(b);
-            }
-
-        }
-
-    }
-
+    /**
+     * if the first time -> init server
+     */
     private void initServer() {
         if (firstTimeRun) { // Hence player is not null
             play.setIDs(308522416, 311229488);
             play.setInitLocation(game.getPlayer().getPoint().get_y(), game.getPlayer().getPoint().get_x());
             play.start();
         }
+
     }
+
+
 
     public Game getGame() {return game; }
     public void setGame(Game game) { this.game = game; }
@@ -169,6 +179,9 @@ public class Controller implements Observer {
     public void setBoard(Board board) { this.board = board; }
     public Play getPlay() { return play;}
     public void setPlay(Play play) { this.play = play; }
+    public PlayerThread getPlayerThread() { return playerThread; }
+    public void setPlayerThread(PlayerThread playerThread) { this.playerThread = playerThread; }
+
 
 
 }

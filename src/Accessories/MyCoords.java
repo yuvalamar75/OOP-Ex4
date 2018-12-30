@@ -89,20 +89,31 @@ public class MyCoords implements coords_converter{
 	/** computes the polar representation of the 3D vector be gps0-->gps1 
 	 * Note: this method should return an azimuth (aka yaw), elevation (pitch), and distance*/
 	@Override
-	public double azimuth_elevation_dist(Point3D gps0, Point3D gps1) {
-		Point3D vec = vector3D(gps0, gps1);
-		double azimut = Math.toDegrees(Math.atan(Math.abs(vec.x() / vec.y())));
-		if (vec.y() < 0) {
-			if (vec.x() > 0) {
-				azimut = 180 - azimut;
-			} else
-				azimut = 180 + azimut;
-		} else {
-			if (vec.x() < 0) {
-				azimut = 360 - azimut;
+	public double [] azimuth_elevation_dist(Point3D gps0, Point3D gps1) {
+		double azimut = 0;
+		if(!(isValid_GPS_Point(gps0))||!(isValid_GPS_Point(gps1))) {
+			return null;
+		}
+		Point3D vec =vector3D(gps0, gps1);
+		if(vec.get_x()==0 && vec.get_y()==0 && vec.get_z()==0) azimut = 0;
+		else azimut = Math.toDegrees(Math.atan(Math.abs(vec.x()/vec.y())));
+		if (vec.y()<0) {
+			if (vec.x()>0) {
+				azimut=180-azimut;
+			}else
+				azimut=180+azimut;
+		}else {
+			if(vec.x()<0) {
+				azimut=360-azimut;
 			}
 		}
-		return azimut;
+		//distance//
+		double distance = distance3d(gps0,gps1);
+		//elevation//
+		double high = gps1.z() - gps0.z();
+		double elevation = Math.toDegrees(Math.asin(high/distance));
+		double arr[] = {azimut,elevation,distance};
+		return arr;
 	}
 
 

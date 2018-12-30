@@ -9,9 +9,8 @@ public class myFrame extends JFrame {
     private int x;
     private int y;
     private Board gameBoard;
-    private MenuItem loadGame;
-    private MenuItem runStep;
-    private MenuItem addPlayerButton;
+    private MenuItem addPlayerButton,loadGame,runStep,autoRun;
+
 
     public myFrame(Board gameBoard){
 
@@ -50,6 +49,9 @@ public class myFrame extends JFrame {
 
         runStep = new MenuItem("Run Steps");
         run.add(runStep);
+
+        autoRun = new MenuItem("Auto Run");
+        run.add(autoRun);
     }
 
     @Override
@@ -69,6 +71,8 @@ public class myFrame extends JFrame {
     public void setX(int x) { this.x = x; }
     //public boolean isRunB() { return runB; }
    // public void setRunB(boolean runB) { this.runB = runB; }
+    public MenuItem getAutoRun() { return autoRun; }
+    public void setAutoRun(MenuItem autoRun) { this.autoRun = autoRun; }
     @Override
     public int getY() { return y; }
     public void setY(int y) { this.y = y; }
