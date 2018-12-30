@@ -105,6 +105,39 @@ public class Game {
 			System.out.println(e.toString());
 		}
 	}
+
+	public void refresh(ArrayList<String> new_data){
+		pacmans.clear();
+		blocks.clear();
+		ghosts.clear();
+		fruits.clear();
+		setPlayer(null);
+
+		for (int i=0 ; i< new_data.size(); i++ ){
+			String line = new_data.get(i);
+
+			if (line.startsWith("M")) {
+				Player player = new Player(line);
+				setPlayer(player);
+			}
+			if (line.startsWith("P")) {
+				Pacman p = new Pacman(line);
+				pacmans.add(p);
+			}
+			if (line.startsWith("G")) {
+				Pacman g = new Pacman(line);
+				ghosts.add(g);
+			}
+			if (line.startsWith("F")) {
+				Fruit f = new Fruit(line);
+				fruits.add(f);
+			}
+			if (line.startsWith("B")) {
+				Block b = new Block(line);
+				blocks.add(b);
+			}
+		}
+	}
 	
 	
 	public Game (Game g) {
