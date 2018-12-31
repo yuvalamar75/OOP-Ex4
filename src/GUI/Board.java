@@ -144,7 +144,8 @@ public class Board extends JPanel implements MouseListener {
             clickStep = new Point3D(newPoint);
 
             // Updates observers -> Controller
-            ((nextStep) nextStep).setPoint(clickStep);
+            ((nextStep) nextStep).setPoint(clickStep, game.getPlayer().getPoint());
+
         }
 
         if (autoRun){
