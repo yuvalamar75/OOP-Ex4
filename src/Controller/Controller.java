@@ -27,6 +27,7 @@ public class Controller implements Observer {
     private ArrayList<String> board_data;
     private PlayerThread playerThread;
     private Point3D nextStep;
+    private double azimut;
     private boolean firstTimeRun = true,runThread = false;
 
     public Controller(){
@@ -52,6 +53,7 @@ public class Controller implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         nextStep = ((nextStep) o).getPoint();
+        azimut = ((nextStep) o).getazimut();
 
         if (firstTimeRun) {
             initServer();
@@ -91,9 +93,7 @@ public class Controller implements Observer {
      */
     public void doNextStep() {
         System.out.println("> In Run Game");
-        MyCoords coords = new MyCoords();
-        double[] azimut = coords.azimuth_elevation_dist(game.getPlayer().getPoint(), nextStep);
-        play.rotate(azimut[0]);
+        play.rotate(azimut);
         board_data = play.getBoard();
         System.out.println(play.getStatistics());
         game.refresh(board_data);
