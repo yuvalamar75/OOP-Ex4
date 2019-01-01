@@ -11,8 +11,10 @@ public class nextStep extends Observable {
         synchronized (this) {
             this.point = point;
         }
+        setChanged();
+        notifyObservers();
     }
-        public void setPoint(Point3D point, Point3D curr) {
+    public void setPoint(Point3D point, Point3D curr) {
             synchronized (this) {
                 this.point = point;
                 azimut = coords.azimuth_elevation_dist(curr,point);
@@ -20,13 +22,12 @@ public class nextStep extends Observable {
 
         setChanged();
         notifyObservers();
-    }
+}
 
     public synchronized Point3D getPoint() {
         return point;
     }
-
-        public synchronized double getazimut() {
+    public synchronized double getazimut() {
             return azimut[0];
         }
 

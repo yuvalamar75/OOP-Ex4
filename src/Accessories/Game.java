@@ -60,7 +60,6 @@ public class Game {
 
 			}
 	}
-
 	public Game(String path) {
 
 		fruits = new ArrayList<>();
@@ -105,7 +104,6 @@ public class Game {
 			System.out.println(e.toString());
 		}
 	}
-
 	public void refresh(ArrayList<String> new_data){
 		pacmans.clear();
 		blocks.clear();
@@ -138,8 +136,6 @@ public class Game {
 			}
 		}
 	}
-	
-	
 	public Game (Game g) {
 		
 		fruits = new ArrayList<>();

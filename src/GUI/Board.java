@@ -19,18 +19,13 @@ public class Board extends JPanel implements MouseListener {
     private  boolean addPlayer;
     private boolean runStepByStep;
     private boolean autoRun;
-
     private  Point3D clickStep;
     private Game game;
     private Map map;
     private BufferedImage mapImage, cherry, pacman, ghost, player;
-
-
-
     private Convertors convertor;
     private static int x;
     private static int y;
-
     // Observable
     private Observable nextStep = new nextStep();
 
@@ -40,7 +35,6 @@ public class Board extends JPanel implements MouseListener {
         this.addMouseListener(this);
         initGUI();
     }
-
     private void initGUI(){
         try {
             mapImage = map.getMyMap();
@@ -72,7 +66,6 @@ public class Board extends JPanel implements MouseListener {
             e.printStackTrace();
         }
     }
-
     public void paint(Graphics g){
 
         int width = this.getWidth();
@@ -117,11 +110,9 @@ public class Board extends JPanel implements MouseListener {
 
 
     }
-
     public void update(){
         repaint();
     }
-
     @Override
     public void mouseClicked(MouseEvent e) {
         x = e.getX();
@@ -133,7 +124,6 @@ public class Board extends JPanel implements MouseListener {
 
             clickStep = new Point3D(playerPoint);
             addPlayer = false;
-
             repaint();
         }
 
@@ -158,7 +148,6 @@ public class Board extends JPanel implements MouseListener {
 
         }
     }
-
     @Override
     public void mousePressed(MouseEvent e) { }
     @Override
@@ -181,7 +170,6 @@ public class Board extends JPanel implements MouseListener {
     public boolean isAutoRun() { return autoRun; }
     public void setAutoRun(boolean autoRun) { this.autoRun = autoRun; }
     public Convertors getConvertor() { return convertor; }
-
     public Observable getNextStep() {
         return nextStep;
     }
