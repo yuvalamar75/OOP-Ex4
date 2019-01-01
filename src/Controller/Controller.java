@@ -37,16 +37,9 @@ public class Controller implements Observer {
         board = new Board(game, map);
         frame = new myFrame(board);
         board_data = new ArrayList<>();
-
-
         // Init next step to player's current point
         nextStep = new Point3D(game.getPlayer().getPoint());
-
         initListeners();
-    }
-
-    private void observe(Observable o) {
-        o.addObserver(this);
     }
 
     // Update from board on mouse clicked
@@ -72,22 +65,6 @@ public class Controller implements Observer {
             }
         }
     }
-
-    /**
-     * create from player -> ThreadPlayer
-     */
-    private void createThread() {
-        playerThread = new PlayerThread(this.getBoard(),this.getPlay());
-    }
-
-    /**
-     * run the Thread
-     */
-
-    private void RunThread() {
-            playerThread.start();
-    }
-
     /**
      * do the next step with "stepByStep" button
      */
@@ -100,7 +77,6 @@ public class Controller implements Observer {
         // repaint
         board.update();
     }
-
     private void initListeners() {
 
         // If clicked on add player -> set to true
@@ -129,11 +105,9 @@ public class Controller implements Observer {
         // Controller is observing the next step OBSERVABLE object
         observe(board.getNextStep());
     }
-
     /**
      *     init game from existing file
      */
-
     private void initGame() {
         JFileChooser jfc = new JFileChooser();
         String pathFile = "";
@@ -153,8 +127,6 @@ public class Controller implements Observer {
         board.update();
 
     }
-
-
     /**
      * if the first time -> init server
      */
@@ -166,9 +138,16 @@ public class Controller implements Observer {
         }
 
     }
-
-
-
+    public ArrayList<String> getBoard_data() { return board_data; }
+    public void setBoard_data(ArrayList<String> board_data) { this.board_data = board_data; }
+    public Point3D getNextStep() { return nextStep; }
+    public void setNextStep(Point3D nextStep) { this.nextStep = nextStep; }
+    public double getAzimut() { return azimut; }
+    public void setAzimut(double azimut) { this.azimut = azimut; }
+    public boolean isFirstTimeRun() { return firstTimeRun; }
+    public void setFirstTimeRun(boolean firstTimeRun) { this.firstTimeRun = firstTimeRun; }
+    public boolean isRunThread() { return runThread; }
+    public void setRunThread(boolean runThread) { this.runThread = runThread; }
     public Game getGame() {return game; }
     public void setGame(Game game) { this.game = game; }
     public myFrame getFrame() { return frame; }
@@ -181,7 +160,42 @@ public class Controller implements Observer {
     public void setPlay(Play play) { this.play = play; }
     public PlayerThread getPlayerThread() { return playerThread; }
     public void setPlayerThread(PlayerThread playerThread) { this.playerThread = playerThread; }
+    private void observe(Observable o) { o.addObserver(this); }
+    /**
+     * run the Thread
+     */
+    private void RunThread() { playerThread.start(); }
+    /**
+     * create from player -> ThreadPlayer
+     */
 
+    private void createThread() {
+        playerThread = new PlayerThread(game.getPlayer());
+    }
 
+    class PlayerThread extends Thread{
+        private Player player;
+        private boolean flag = true;
 
+        public PlayerThread(Player player) {
+            this.player = game.getPlayer();
+        }
+
+        @Override
+        public void  run() {
+            System.out.println("> In ThredRun");
+            while(play.isRuning()) {
+                play.rotate(azimut);
+                ArrayList<String> board_data = play.getBoard();
+                board.getGame().refresh(board_data);
+                board.update();
+                System.out.println(play.getStatistics());
+                try {
+                    sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }
