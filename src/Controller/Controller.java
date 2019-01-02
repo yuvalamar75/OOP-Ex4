@@ -8,6 +8,7 @@ import Creatures.Player;
 import GUI.Board;
 import GUI.myFrame;
 import Robot.Play;
+import graph.Graph;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -19,6 +20,8 @@ import java.util.Observer;
 
 public class Controller implements Observer {
 
+
+    private LinesContainter linesContainer;
     private Game game;
     private myFrame frame;
     private Map map;
@@ -28,12 +31,14 @@ public class Controller implements Observer {
     private PlayerThread playerThread;
     private Point3D nextStep;
     private double azimut;
+    Graph graph = new Graph();
     private boolean firstTimeRun = true,runThread = false;
 
     public Controller(){
 
         game = new Game();
         map = new Map();
+        linesContainer = new LinesContainter(game,map);
         board = new Board(game, map);
         frame = new myFrame(board);
         board_data = new ArrayList<>();
@@ -161,6 +166,10 @@ public class Controller implements Observer {
     public PlayerThread getPlayerThread() { return playerThread; }
     public void setPlayerThread(PlayerThread playerThread) { this.playerThread = playerThread; }
     private void observe(Observable o) { o.addObserver(this); }
+    public LinesContainter getLinesContainer() { return linesContainer; }
+    public void setLinesContainer(LinesContainter linesContainer) { this.linesContainer = linesContainer; }
+    public Graph getGraph() { return graph; }
+    public void setGraph(Graph graph) { this.graph = graph; }
     /**
      * run the Thread
      */
@@ -172,7 +181,6 @@ public class Controller implements Observer {
     private void createThread() {
         playerThread = new PlayerThread(game.getPlayer());
     }
-
     class PlayerThread extends Thread{
         private Player player;
         private boolean flag = true;
@@ -191,11 +199,13 @@ public class Controller implements Observer {
                 board.update();
                 System.out.println(play.getStatistics());
                 try {
-                    sleep(10);
+                    sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }
     }
+
+
 }

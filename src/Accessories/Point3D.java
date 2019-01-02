@@ -8,6 +8,8 @@ public class Point3D implements Geom_element, Serializable
 	 */
 	final double EARTH_RADIUS=6371000;
 
+
+	private double Id;
 	private static final long serialVersionUID = 1L;
 	private double _x,_y,_z;
 
@@ -298,5 +300,7 @@ public final static int DOWN = 6, UP = 7;
 	public static double r2d(double a) { return Math.toDegrees(a);}
 	/** transform from radians to angles */
 	public static double d2r(double a) { return Math.toRadians(a);}
+	public double getId() { return Id; }
+	public void setId(double id) { Id = id; }
 	////////////////////////////////////////////////////////////////////////////////
 }
