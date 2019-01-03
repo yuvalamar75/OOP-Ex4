@@ -5,6 +5,7 @@ import Accessories.Point3D;
 public class Player {
 	
 	private Point3D point;
+	private int [] pixels ;
 	private int ID;
 	private double radius;
 	private double speed;
@@ -18,6 +19,7 @@ public class Player {
 		radius = 1;
 		type = "M";
 		score = 0;
+		pixels = new int[2];
 		
 	}
 
@@ -39,6 +41,7 @@ public class Player {
 		speed = Double.parseDouble(data[5]);
 		radius = Double.parseDouble(data[6]);
 		score = 0;
+		pixels = new int[2];
 	}
 	
 	//Copy constructor.
@@ -51,6 +54,7 @@ public class Player {
 		this.speed = p.speed;
 		this.score = p.score;
 		this.type = p.type;
+		this.pixels = p.pixels;
 		
 	}
 
@@ -67,4 +71,6 @@ public class Player {
 	public void setPoint(Point3D point) {this.point = point;}
 	public double getScore() {return score;}
 	public void setScore(double score) {this.score = score;}
+	public int[] getPixels() { return pixels; }
+	public void setPixels(int[] pixels) { this.pixels = pixels; }
 }
