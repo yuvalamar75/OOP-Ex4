@@ -9,7 +9,11 @@ public class myFrame extends JFrame {
     private int x;
     private int y;
     private Board gameBoard;
-    private MenuItem addPlayerButton,loadGame,runStep,autoRun;
+    private MenuItem addPlayerButton;
+    private MenuItem loadGame;
+    private MenuItem runStep;
+    private MenuItem autoRun;
+    private MenuItem runAlgo;
 
 
     public myFrame(Board gameBoard){
@@ -41,8 +45,8 @@ public class myFrame extends JFrame {
         Menu algo = new Menu("Algo");
         main.add(algo);
 
-        MenuItem runalgo = new MenuItem("Run Algorithm");
-        algo.add(runalgo);
+        runAlgo = new MenuItem("Run Algorithm");
+        algo.add(runAlgo);
 
         Menu run = new Menu("RUN");
         main.add(run);
@@ -76,6 +80,9 @@ public class myFrame extends JFrame {
     @Override
     public int getY() { return y; }
     public void setY(int y) { this.y = y; }
+
+    public MenuItem getRunAlgo() { return runAlgo; }
+    public void setRunAlgo(MenuItem runAlgo) { this.runAlgo = runAlgo; }
 
 }
 

@@ -93,12 +93,13 @@ public class Point3D implements Geom_element, Serializable
 		return this.distance3D(p2.x(), p2.y(), p2.z());}
 	public double distance3D(double x, double y , double z)
 	{
-		/*double dx = _x-x;
+		double dx = _x-x;
 		double dy = _y-y;
 		double dz = _z-z;
 		double t = dx*dx+dy*dy+dz*dz;
-		return Math.sqrt(t);*/
-			double lonnorm=Math.cos(this.x()*(Math.PI/180));
+		return Math.sqrt(t);
+
+			/*double lonnorm=Math.cos(this.x()*(Math.PI/180));
 			double diflon;
 			double diflat;
 			double difalt;
@@ -116,7 +117,7 @@ public class Point3D implements Geom_element, Serializable
 			 lonmeter = Math.sin(dif_radlon)*EARTH_RADIUS*lonnorm;
 			
 			 double distance= Math.sqrt(Math.pow(altmeter, 2)+Math.pow(lonmeter, 2));
-			 return distance;
+			 return distance;*/
 			
 		}
 	

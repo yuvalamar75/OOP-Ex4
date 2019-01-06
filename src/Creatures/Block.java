@@ -32,9 +32,11 @@ public class Block {
 		maxLon = Math.max(Double.parseDouble(data[3]),Double.parseDouble(data[6]));
 
 		bottomLeft = new Point3D(minLon, minLat);
-		topRight = new Point3D(maxLon,maxLat );
+		topRight = new Point3D(maxLon,maxLat);
+
 		bottomRight = new Point3D(maxLon, minLat);
 		topLeft = new Point3D(minLon, maxLat);
+
 		createVertices();
 
 
