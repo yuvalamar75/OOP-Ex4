@@ -8,6 +8,8 @@ import GUI.Board;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class GraphBuilder {
 
@@ -22,6 +24,7 @@ public class GraphBuilder {
         this.board = board;
         changePlayerPixels();
         changeVertices();
+
     }
 
     public void changePlayerPixels(){
@@ -39,7 +42,6 @@ public class GraphBuilder {
         for (Fruit fruit : board.getGame().getFruits()) {
             fruit.setPixels(board.getConvertor().gps2Pixels(fruit.getPoint()));
         }
-
 
         //change the blocks points gps2pixels.
         for (Block block : board.getGame().getBlocks()) {
@@ -71,6 +73,10 @@ public class GraphBuilder {
             }
         }
     }
+
+    public void BFS(){
+        Queue<GraphNode> bfsQueue  = new LinkedList<>();
+    }
     public Fruit getClosestFruit() {
         double minDis = Integer.MAX_VALUE;
         Fruit closetFruit = null;
@@ -81,6 +87,9 @@ public class GraphBuilder {
                 minDis = dis;
                 closetFruit = fruit;
             }
+            Point3D fruitPixels = new Point3D(closetFruit.getPixels()[0],closetFruit.getPixels()[1]);
+            GraphNode fruitNode = new GraphNode(fruitPixels);
+            return closetFruit;
         }
         
         Point3D closestFruitPoint = new Point3D(closetFruit.getPixels()[0], closetFruit.getPixels()[1]);

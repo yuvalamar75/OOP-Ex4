@@ -1,6 +1,7 @@
 package Accessories;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class GraphNode {
     private Point3D point;

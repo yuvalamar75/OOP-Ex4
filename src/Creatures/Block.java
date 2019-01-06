@@ -11,11 +11,15 @@ public class Block {
 	private double maxLat;
 	private double maxLon;
 	private double weight;
+
 	private Point3D bottomLeft;
 	private Point3D topRight;
 	private Point3D bottomRight;
 	private Point3D topLeft;
 	private Point3D [] points = new Point3D[4];
+
+	private double height;
+	private double width;
 
 	public Block(String line) {
 		String[] data = line.split(",");
@@ -32,6 +36,8 @@ public class Block {
 		bottomRight = new Point3D(maxLon, minLat);
 		topLeft = new Point3D(minLon, maxLat);
 		createVertices();
+
+
 	}
 	//create array with all the corners of the block
 	private void createVertices() {
@@ -40,6 +46,7 @@ public class Block {
 		points[2] = bottomRight;
 		points[3] = bottomLeft;
 	}
+
 
 	//Copy constructor.
 
@@ -52,6 +59,9 @@ public class Block {
 		this.weight = b.weight;
 		this.bottomLeft = b.bottomLeft;
 		this.topRight = b.topRight;
+		this.bottomRight = b.bottomRight;
+		this.topLeft = b.topLeft;
+		this.points = b.points;
 	}
 
 	public String toString() {
