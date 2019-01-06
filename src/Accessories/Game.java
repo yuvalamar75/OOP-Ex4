@@ -5,6 +5,7 @@ import Creatures.Fruit;
 import Creatures.Pacman;
 import Creatures.Player;
 
+import java.awt.geom.Line2D;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 
 
 public class Game {
-
+	private int blockId = 2;
 	private ArrayList<Fruit> fruits;
 	private ArrayList<Block> blocks;
 	private ArrayList<Pacman> pacmans;
@@ -56,10 +57,13 @@ public class Game {
 				if (line.startsWith("B")) {
 					Block b = new Block(line);
 					blocks.add(b);
+
 				}
 
 			}
 	}
+
+
 	public Game(String path) {
 
 		fruits = new ArrayList<>();
@@ -169,4 +173,6 @@ public class Game {
 	public void setGhosts(ArrayList<Pacman> ghosts) {this.ghosts = ghosts;}
 	public Player getPlayer() {return player;}
 	public void setPlayer(Player player) {this.player = player;}
+	public int getBlockId() { return blockId; }
+	public void setBlockId(int blockId) { this.blockId = blockId; }
 }

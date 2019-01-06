@@ -1,17 +1,15 @@
 package Controller;
 
 import Accessories.*;
-import Creatures.Block;
 import Creatures.Fruit;
-import Creatures.Pacman;
 import Creatures.Player;
 import GUI.Board;
 import GUI.myFrame;
 import Robot.Play;
+import graph.Graph;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -19,6 +17,9 @@ import java.util.Observer;
 
 public class Controller implements Observer {
 
+
+    private GraphBuilder linesContainer;
+    private Fruit closestFruit;
     private Game game;
     private myFrame frame;
     private Map map;
@@ -28,6 +29,8 @@ public class Controller implements Observer {
     private PlayerThread playerThread;
     private Point3D nextStep;
     private double azimut;
+    private Graph graph = new Graph();
+    private ArrayList<Point3D> pointsToCheck;
     private boolean firstTimeRun = true,runThread = false;
 
     public Controller(){
@@ -35,8 +38,10 @@ public class Controller implements Observer {
         game = new Game();
         map = new Map();
         board = new Board(game, map);
+        linesContainer = new GraphBuilder(board);
         frame = new myFrame(board);
         board_data = new ArrayList<>();
+        pointsToCheck = new ArrayList<>();
         // Init next step to player's current point
         nextStep = new Point3D(game.getPlayer().getPoint());
         initListeners();
@@ -93,9 +98,11 @@ public class Controller implements Observer {
         // if clicked on loadGame -> initGame
         frame.getLoadGame().addActionListener(e -> {
             initGame();
+
         });
 
         frame.getAutoRun().addActionListener(e -> {
+            getClosestFruit();
             board.setRunStepByStep(false);
             board.setAutoRun(true);
             createThread();
@@ -105,6 +112,13 @@ public class Controller implements Observer {
         // Controller is observing the next step OBSERVABLE object
         observe(board.getNextStep());
     }
+    public void getClosestFruit(){
+
+        closestFruit = linesContainer.getClosestFruit();
+        System.out.println("the closest is: "+closestFruit.getID());
+    }
+
+
     /**
      *     init game from existing file
      */
@@ -138,6 +152,8 @@ public class Controller implements Observer {
         }
 
     }
+
+
     public ArrayList<String> getBoard_data() { return board_data; }
     public void setBoard_data(ArrayList<String> board_data) { this.board_data = board_data; }
     public Point3D getNextStep() { return nextStep; }
@@ -161,6 +177,11 @@ public class Controller implements Observer {
     public PlayerThread getPlayerThread() { return playerThread; }
     public void setPlayerThread(PlayerThread playerThread) { this.playerThread = playerThread; }
     private void observe(Observable o) { o.addObserver(this); }
+    public GraphBuilder getLinesContainer() { return linesContainer; }
+    public void setLinesContainer(GraphBuilder linesContainer) { this.linesContainer = linesContainer; }
+    public Graph getGraph() { return graph; }
+    public void setGraph(Graph graph) { this.graph = graph; }
+    public void setClosestFruit(Fruit closestFruit) { closestFruit = closestFruit; }
     /**
      * run the Thread
      */
@@ -172,7 +193,6 @@ public class Controller implements Observer {
     private void createThread() {
         playerThread = new PlayerThread(game.getPlayer());
     }
-
     class PlayerThread extends Thread{
         private Player player;
         private boolean flag = true;
@@ -191,11 +211,13 @@ public class Controller implements Observer {
                 board.update();
                 System.out.println(play.getStatistics());
                 try {
-                    sleep(10);
+                    sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }
     }
+
+
 }

@@ -11,9 +11,12 @@ public class Block {
 	private double maxLat;
 	private double maxLon;
 	private double weight;
-	private Point3D min;
-	private Point3D max;
-	
+	private Point3D bottomLeft;
+	private Point3D topRight;
+	private Point3D bottomRight;
+	private Point3D topLeft;
+	private Point3D [] points = new Point3D[4];
+
 	public Block(String line) {
 		String[] data = line.split(",");
 		type = "B";
@@ -24,13 +27,22 @@ public class Block {
 		maxLat = Math.max(Double.parseDouble(data[2]),Double.parseDouble(data[5]));
 		maxLon = Math.max(Double.parseDouble(data[3]),Double.parseDouble(data[6]));
 
-		min = new Point3D(minLon, minLat);
-		max = new Point3D(maxLon,maxLat );
-		
+		bottomLeft = new Point3D(minLon, minLat);
+		topRight = new Point3D(maxLon,maxLat );
+		bottomRight = new Point3D(maxLon, minLat);
+		topLeft = new Point3D(minLon, maxLat);
+		createVertices();
 	}
-	
+	//create array with all the corners of the block
+	private void createVertices() {
+		points[0] = topLeft;
+		points[1] = topRight;
+		points[2] = bottomRight;
+		points[3] = bottomLeft;
+	}
+
 	//Copy constructor.
-	
+
 	public Block(Block b) {
 		this.ID = b.ID;
 		this.minLat = b.minLat;
@@ -38,13 +50,13 @@ public class Block {
 		this.maxLat = b.maxLat;
 		this.maxLon = b.maxLon;
 		this.weight = b.weight;
-		this.min = b.min;
-		this.max = b.max;
+		this.bottomLeft = b.bottomLeft;
+		this.topRight = b.topRight;
 	}
 
 	public String toString() {
 		String st = "";
-		st += "\n" + type + ", " + ID + ", " + ", " + ", " + min.x() + ", " + min.y() + ", " + max.x() + ", " + max.y();
+		st += "\n" + type + ", " + ID + ", " + ", " + ", " + bottomLeft.x() + ", " + bottomLeft.y() + ", " + topRight.x() + ", " + topRight.y();
 		return st;
 
 	}
@@ -62,10 +74,16 @@ public class Block {
 	public void setMaxLon(double maxLon) {this.maxLon = maxLon;}
 	public double getWeight() {return weight;}
 	public void setWeight(int weight) {this.weight = weight;}
-	public Point3D getMin() {return min;}
-	public void setMin(Point3D min) {this.min = min;}
-	public Point3D getMax() {return max;}
-	public void setMax(Point3D max) {this.max = max;}
+	public Point3D getBottomLeft() {return bottomLeft;}
+	public void setBottomLeft(Point3D bottomLeft) {this.bottomLeft = bottomLeft;}
+	public Point3D getTopRight() {return topRight;}
+	public void setTopRight(Point3D topRight) {this.topRight = topRight;}
+	public Point3D getBottomRight() { return bottomRight; }
+	public void setBottomRight(Point3D bottomRight) { this.bottomRight = bottomRight; }
+	public Point3D getTopLeft() { return topLeft; }
+	public void setTopLeft(Point3D topLeft) { this.topLeft = topLeft; }
+	public Point3D[] getPoints() { return points; }
+	public void setPoints(Point3D[] points) { this.points = points; }
 
 
 }
