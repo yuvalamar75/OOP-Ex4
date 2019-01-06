@@ -99,8 +99,8 @@ public class Board extends JPanel implements MouseListener {
         }
 
         for (Block block : game.getBlocks()){
-            Point3D p = new  Point3D(block.getBottomLeft().x(),block.getTopRight().y(),0);
-            int[] pixels = convertor.gps2Pixels(p);
+            //Point3D p = new  Point3D(block.getTopLeft().x(),block.getTopLeft().get_y(),0);
+            int[] pixels = convertor.gps2Pixels(block.getTopLeft());
             int [] pixelsHeight = convertor.gps2Pixels(block.getBottomLeft());
             int [] pixelsWidth = convertor.gps2Pixels(block.getTopRight());
 
