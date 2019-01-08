@@ -26,7 +26,7 @@ public class Fruit {
 		this.ID = f.ID;
 		this.weight = f.weight;
 		this.type = f.type;
-		pixels = new int [2];
+		pixels = f.pixels;
 		
 	}
 	
@@ -46,6 +46,6 @@ public class Fruit {
 	public String getType(){return type;}
 	public void setType(String type) {this.type = type;}
 	public int[] getPixels() { return pixels; }
-	public void setPixels(int[] pixels) { this.pixels = pixels; }
+	public void setPixels(int[] pixels) { this.pixels[0] = pixels[0];this.pixels[1] = pixels[1]; }
 
 }

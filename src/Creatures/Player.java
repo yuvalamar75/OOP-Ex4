@@ -72,5 +72,5 @@ public class Player {
 	public double getScore() {return score;}
 	public void setScore(double score) {this.score = score;}
 	public int[] getPixels() { return pixels; }
-	public void setPixels(int[] pixels) { this.pixels = pixels; }
+	public void setPixels(int[] pixels) { this.pixels[0] = pixels[0];this.pixels[1] = pixels[1]; }
 }

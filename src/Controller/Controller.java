@@ -6,7 +6,6 @@ import Creatures.Player;
 import GUI.Board;
 import GUI.myFrame;
 import Robot.Play;
-import graph.Graph;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -27,10 +26,12 @@ public class Controller implements Observer {
     private PlayerThread playerThread;
     private Point3D nextStep;
     private double azimut;
-    private GraphBuilder graph;
-    private boolean firstTimeRun = true,runThread = false;
+    private GraphBuilder builder;
+    private MyCoords coords = new MyCoords();
+    private Target target;
+    private boolean firstTimeRun = true, runThread = false;
 
-    public Controller(){
+    public Controller() {
 
         game = new Game();
         map = new Map();
@@ -94,21 +95,44 @@ public class Controller implements Observer {
         frame.getRunAlgo().addActionListener(e -> {
             board.setRunStepByStep(false);
             board.setAutoRun(false);
-           // graph = new GraphBuilder(board);
-            //initServer();
+            board.setRunAlgo(true);
+
+            autoAlgorithm();
+
         });
-
-
 
 
         // Controller is observing the next step OBSERVABLE object
         observe(board.getNextStep());
     }
 
+    private void autoAlgorithm() {
+
+
+        initServer();
+        createThread();
+        RunThread();
+
+       /*builder = new GraphBuilder(board);
+       builder.PrintAllTaregets();
+
+
+
+       target = builder.getClosestTarget();
+        System.out.println("the closest is :\n");
+        System.out.println(target);
+        for (int i = 0; i<builder.getVertices().size(); i++){
+            System.out.println("index: "+i );
+            System.out.println("the point is: " + builder.getVertices().get(i).getPoint().get_y() + ", "+builder.getVertices().get(i).getPoint().get_x() );
+        }
+
+        System.out.println(game.getPlayer().getPoint().get_y()+ "," +game.getPlayer().getPoint().get_x());*/
+
+    }
 
 
     /**
-     *     init game from existing file
+     * init game from existing file
      */
     private void initGame() {
         JFileChooser jfc = new JFileChooser();
@@ -117,8 +141,7 @@ public class Controller implements Observer {
                 "CSV files (*csv)", "csv");
         jfc.setFileFilter(filter);
         int ret = jfc.showOpenDialog(this.frame);
-        if(ret == JFileChooser.APPROVE_OPTION)
-        {
+        if (ret == JFileChooser.APPROVE_OPTION) {
             File file = jfc.getSelectedFile();
             pathFile = file.getAbsolutePath();
 
@@ -129,10 +152,12 @@ public class Controller implements Observer {
         board.update();
 
     }
+
     /**
      * if the first time -> init server
      */
     private void initServer() {
+
         if (firstTimeRun) { // Hence player is not null
             play.setIDs(308522416, 311229488);
             play.setInitLocation(game.getPlayer().getPoint().get_y(), game.getPlayer().getPoint().get_x());
@@ -155,33 +180,113 @@ public class Controller implements Observer {
     }
 
 
-    public ArrayList<String> getBoard_data() { return board_data; }
-    public void setBoard_data(ArrayList<String> board_data) { this.board_data = board_data; }
-    public Point3D getNextStep() { return nextStep; }
-    public void setNextStep(Point3D nextStep) { this.nextStep = nextStep; }
-    public double getAzimut() { return azimut; }
-    public void setAzimut(double azimut) { this.azimut = azimut; }
-    public boolean isFirstTimeRun() { return firstTimeRun; }
-    public void setFirstTimeRun(boolean firstTimeRun) { this.firstTimeRun = firstTimeRun; }
-    public boolean isRunThread() { return runThread; }
-    public void setRunThread(boolean runThread) { this.runThread = runThread; }
-    public Game getGame() {return game; }
-    public void setGame(Game game) { this.game = game; }
-    public myFrame getFrame() { return frame; }
-    public void setFrame(myFrame frame) { this.frame = frame; }
-    public Map getMap() { return map; }
-    public void setMap(Map map) { this.map = map; }
-    public Board getBoard() { return board; }
-    public void setBoard(Board board) { this.board = board; }
-    public Play getPlay() { return play;}
-    public void setPlay(Play play) { this.play = play; }
-    public PlayerThread getPlayerThread() { return playerThread; }
-    public void setPlayerThread(PlayerThread playerThread) { this.playerThread = playerThread; }
-    private void observe(Observable o) { o.addObserver(this); }
+    public ArrayList<String> getBoard_data() {
+        return board_data;
+    }
+
+    public void setBoard_data(ArrayList<String> board_data) {
+        this.board_data = board_data;
+    }
+
+    public Point3D getNextStep() {
+        return nextStep;
+    }
+
+    public void setNextStep(Point3D nextStep) {
+        this.nextStep = nextStep;
+    }
+
+    public double getAzimut() {
+        return azimut;
+    }
+
+    public void setAzimut(double azimut) {
+        this.azimut = azimut;
+    }
+
+    public boolean isFirstTimeRun() {
+        return firstTimeRun;
+    }
+
+    public void setFirstTimeRun(boolean firstTimeRun) {
+        this.firstTimeRun = firstTimeRun;
+    }
+
+    public boolean isRunThread() {
+        return runThread;
+    }
+
+    public void setRunThread(boolean runThread) {
+        this.runThread = runThread;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public myFrame getFrame() {
+        return frame;
+    }
+
+    public void setFrame(myFrame frame) {
+        this.frame = frame;
+    }
+
+    public Map getMap() {
+        return map;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    public Play getPlay() {
+        return play;
+    }
+
+    public void setPlay(Play play) {
+        this.play = play;
+    }
+
+    public PlayerThread getPlayerThread() {
+        return playerThread;
+    }
+
+    public void setPlayerThread(PlayerThread playerThread) {
+        this.playerThread = playerThread;
+    }
+
+    private void observe(Observable o) {
+        o.addObserver(this);
+    }
+
     /**
      * run the Thread
      */
-    private void RunThread() { playerThread.start(); }
+    private void RunThread() {
+        playerThread.start();
+    }
+
+    public boolean isIn(Point3D fruitPoint){
+        for (Fruit fruit : game.getFruits()){
+            if (fruitPoint.get_x() == fruit.getPoint().get_x() && fruitPoint.get_y() == fruit.getPoint().get_y()){
+                return true;
+            }
+        }
+        return false;
+    }
     /**
      * create from player -> ThreadPlayer
      */
@@ -189,29 +294,150 @@ public class Controller implements Observer {
     private void createThread() {
         playerThread = new PlayerThread(game.getPlayer());
     }
-    class PlayerThread extends Thread{
+
+    class PlayerThread extends Thread {
         private Player player;
         private boolean flag = true;
 
         public PlayerThread(Player player) {
             this.player = game.getPlayer();
         }
+        public void setPlayer(){
+            this.player = game.getPlayer();
+        }
 
         @Override
-        public void  run() {
-            System.out.println("> In ThredRun");
-            while(play.isRuning()) {
-                play.rotate(azimut);
-                ArrayList<String> board_data = play.getBoard();
-                board.getGame().refresh(board_data);
-                board.update();
-                System.out.println(play.getStatistics());
-                try {
-                    sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+        public void run() {
+
+            System.out.println("in run");
+            if (board.isAutoRun()) {
+                System.out.println("> In ThredRun");
+                while (play.isRuning()) {
+                    play.rotate(azimut);
+                    ArrayList<String> board_data = play.getBoard();
+                    board.getGame().refresh(board_data);
+                    board.update();
+                    System.out.println(play.getStatistics());
+                    try {
+                        sleep(25);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            else if (board.isRunAlgo()) {
+
+                boolean getOut;
+                boolean reachDes;
+
+                while (play.isRuning()) {
+                    getOut = false;
+                    reachDes = true;
+                    game.refresh(play.getBoard());
+                    builder = new GraphBuilder(board);
+                    target = builder.getClosestTarget();
+
+
+                    Point3D targetPoint = (target.getFruit().getPoint());
+                    ArrayList<String> path = target.getPath();
+
+                        if (path.size() == 1 && isIn(targetPoint) && getOut == false) {
+                            System.out.println("stright to fruit");
+                            //System.out.println("this dis is : "+ target.getDistance());
+                            while (isIn(targetPoint) && play.isRuning() && player.getPoint().distance3DInGps(targetPoint) > 1)
+                            {
+
+                                double[] azimut = coords.azimuth_elevation_dist(player.getPoint(), targetPoint);
+                                play.rotate(azimut[0]);
+                                game.refresh(play.getBoard());
+                                //System.out.println(play.getStatistics());
+                                setPlayer();
+                                board.repaint();
+
+                                try {
+                                    sleep(10);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            getOut = true;
+                        }
+
+                        //if the path is biiger then 1.
+
+                        if (path.size() > 1 && isIn(targetPoint)) {
+
+                            // this is wehere i get out from break
+                            for (int i = 1; i < target.getPath().size() && getOut == false ; i++) {
+                                reachDes = false;
+                                if ( i == path.size() && getOut == false && isIn(targetPoint)){
+
+                                    System.out.println("to the last fruit");
+                                    while (isIn(targetPoint) || play.isRuning() ){
+                                        double[] azimut = coords.azimuth_elevation_dist(player.getPoint(), targetPoint);
+                                        play.rotate(azimut[0]);
+                                        game.refresh(play.getBoard());
+                                        System.out.println(play.getStatistics());
+                                        setPlayer();
+                                        board.repaint();
+
+                                        try {
+                                            sleep(10);
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    getOut = true;
+                                }
+
+                                else {
+
+                                    if (!isIn(targetPoint) || !play.isRuning() || getOut || reachDes){
+                                        continue;
+                                    }
+                                    System.out.println("stil in the path");
+
+                                    int nextIndexInPath = Integer.parseInt(target.getPath().get(i));
+                                    Point3D nextPointInPathInPixels = builder.getVertices().get(nextIndexInPath).getPoint();
+                                    Point3D nextPointInPathInGPS = board.getConvertor().pixel2Gps(nextPointInPathInPixels.get_x(), nextPointInPathInPixels.get_y());
+
+                                    while (isIn(targetPoint) && !player.getPoint().equals(nextPointInPathInGPS) && reachDes == false) {
+                                        if(player.getPoint().distance3DInGps(nextPointInPathInGPS)<2){
+                                            reachDes = true;
+                                            continue;
+                                        }
+
+                                        double[] azimut = coords.azimuth_elevation_dist(player.getPoint(), nextPointInPathInGPS);
+                                        play.rotate(azimut[0]);
+                                        game.refresh(play.getBoard());
+                                        setPlayer();
+                                        board.repaint();
+
+                                        try {
+                                            sleep(10);
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+
+                                    if (!isIn(targetPoint)) {
+                                        getOut = true;
+                                        continue;
+                                    }
+                                    else{
+                                        continue;
+                                    }
+                                }
+                                continue;
+                            }
+                            continue;
+                        }
+                        continue;
+                    }
                 }
             }
         }
     }
-}
