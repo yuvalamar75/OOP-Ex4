@@ -121,6 +121,7 @@ public class Game {
 			if (line.startsWith("M")) {
 				Player player = new Player(line);
 				setPlayer(player);
+
 			}
 			if (line.startsWith("P")) {
 				Pacman p = new Pacman(line);

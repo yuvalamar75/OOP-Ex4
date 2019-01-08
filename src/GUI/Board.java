@@ -19,7 +19,7 @@ public class Board extends JPanel implements MouseListener {
     private  boolean addPlayer;
     private boolean runStepByStep;
     private boolean autoRun;
-
+    private boolean runAlgo;
     private  Point3D clickStep;
     private Game game;
     private Map map;
@@ -97,7 +97,7 @@ public class Board extends JPanel implements MouseListener {
             int[] pixels = convertor.gps2Pixels(gh.getPoint());
             g.drawImage(ghost,pixels[0],pixels[1], null);
         }
-
+        int c = 1;
         for (Block block : game.getBlocks()){
             //Point3D p = new  Point3D(block.getTopLeft().x(),block.getTopLeft().get_y(),0);
             int[] pixels = convertor.gps2Pixels(block.getTopLeft());
@@ -106,6 +106,11 @@ public class Board extends JPanel implements MouseListener {
 
             int widthDis = pixelsWidth[0] - pixels[0];
             int heigtDis = pixelsHeight[1] - pixels[1];
+
+            for (int i = 0 ; i<block.getPoints().length; i++){
+                 g.drawString("" + c , (int)block.getPoints()[i].get_x(),(int)block.getPoints()[i].get_y());
+                c++;
+            }
 
             g.fillRect(pixels[0], pixels[1], widthDis, heigtDis);
         }
@@ -180,7 +185,8 @@ public class Board extends JPanel implements MouseListener {
     public boolean isAutoRun() { return autoRun; }
     public void setAutoRun(boolean autoRun) { this.autoRun = autoRun; }
     public Convertors getConvertor() { return convertor; }
-
+    public boolean isRunAlgo() { return runAlgo; }
+    public void setRunAlgo(boolean runAlgo) { this.runAlgo = runAlgo; }
     public Observable getNextStep() {
         return nextStep;
     }

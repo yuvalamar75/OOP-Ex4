@@ -120,8 +120,33 @@ public class Point3D implements Geom_element, Serializable
 			 return distance;*/
 			
 		}
-	
-	
+		public double distance3DInGps(Point3D p2) {
+		return distanceinGps(p2.get_x(), p2.get_y());
+
+		}
+
+	private double distanceinGps(double x, double y) {
+
+		double lonnorm=Math.cos(this.x()*(Math.PI/180));
+		double diflon;
+		double diflat;
+		double difalt;
+
+		double dif_radlat;
+		double dif_radlon;
+		double altmeter;
+		double lonmeter;
+		diflat = x-this.x();
+		diflon = y-this.y();
+		dif_radlat = diflat*Math.PI/180;
+		dif_radlon = diflon*Math.PI/180;
+		altmeter = Math.sin(dif_radlat)*EARTH_RADIUS;
+		lonmeter = Math.sin(dif_radlon)*EARTH_RADIUS*lonnorm;
+
+		double distance= Math.sqrt(Math.pow(altmeter, 2)+Math.pow(lonmeter, 2));
+		return distance;
+	}
+
 
 	public boolean equals(Point3D p2)
 	{

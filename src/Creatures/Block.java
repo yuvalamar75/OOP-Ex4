@@ -26,6 +26,7 @@ public class Block {
 		type = "B";
 		ID = Integer.parseInt(data[1]);
 		weight = Double.parseDouble(data[8]);
+
 		minLat = Math.min(Double.parseDouble(data[2]),Double.parseDouble(data[5]));
 		minLon = Math.min(Double.parseDouble(data[3]),Double.parseDouble(data[6]));
 		maxLat = Math.max(Double.parseDouble(data[2]),Double.parseDouble(data[5]));
@@ -33,7 +34,6 @@ public class Block {
 
 		bottomLeft = new Point3D(minLon, minLat);
 		topRight = new Point3D(maxLon,maxLat);
-
 		bottomRight = new Point3D(maxLon, minLat);
 		topLeft = new Point3D(minLon, maxLat);
 
@@ -95,7 +95,12 @@ public class Block {
 	public Point3D getTopLeft() { return topLeft; }
 	public void setTopLeft(Point3D topLeft) { this.topLeft = topLeft; }
 	public Point3D[] getPoints() { return points; }
-	public void setPoints(Point3D[] points) { this.points = points; }
+	public void setPoints(Point3D[] points) {
+		this.points[0] = points[0];
+		this.points[1] = points[1];
+		this.points[2] = points[2];
+		this.points[3] = points[3];
+	}
 
 
 }
