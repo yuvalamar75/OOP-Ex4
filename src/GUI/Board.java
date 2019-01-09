@@ -67,7 +67,7 @@ public class Board extends JPanel implements MouseListener {
         }
 
         try {
-            player = ImageIO.read(new File("packman.png"));
+            player = ImageIO.read(new File("pacman.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
