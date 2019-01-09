@@ -3,13 +3,12 @@
 // (powered by Fernflower decompiler)
 //
 
-package GraphObject;
+package Graph;
 
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Random;
 
 public class Graph
 {

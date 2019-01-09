@@ -2,14 +2,21 @@ package Creatures;
 
 import Accessories.Point3D;
 
+/**
+ * this class represent fruit
+ */
 public class Fruit {
-	
+
 	private Point3D point;
 	private int ID;
 	private double weight;
 	private String type;
 	private int [] pixels;
-	
+
+	/**
+	 *
+	 * @param line builds a fruit from string
+	 */
 	public Fruit(String line) {
 		String[] data = line.split(",");
 		type = "F";
@@ -18,24 +25,32 @@ public class Fruit {
 		weight	 = Double.parseDouble(data[5]);
 		pixels = new int [2];
 	}
-	
-	//Copy constructor.
-	
+
+	/**
+	 *
+	 * @param f copy constructor
+	 */
 	public Fruit(Fruit f) {
 		this.point = f.point;
 		this.ID = f.ID;
 		this.weight = f.weight;
 		this.type = f.type;
 		pixels = f.pixels;
-		
+
 	}
-	
+
+	/**
+	 *
+	 * @return string describing the object
+	 */
 	public String toString() {
 		String st = "";
 		st += "\n"+ type+ ", " + ID + ", "+ point.x() + ", "+ point.y()+" 0" + ", "+ weight;
 		return st;
-		
+
 	}
+
+	//////////////////getters ans setters/////////////////////////
 
 	public Point3D getPoint() {return point;}
 	public void setPoint(Point3D point) {this.point = point;}

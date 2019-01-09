@@ -1,11 +1,9 @@
-package Accessories;
+package Game;
 
 import Creatures.Block;
 import Creatures.Fruit;
 import Creatures.Pacman;
 import Creatures.Player;
-
-import java.awt.geom.Line2D;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -13,14 +11,23 @@ import java.util.ArrayList;
 
 
 public class Game {
-	private int blockId = 2;
+	/**
+	 * this class represent the "game" (model)
+	 * it holds all the arguments of the game
+	 */
 	private ArrayList<Fruit> fruits;
 	private ArrayList<Block> blocks;
 	private ArrayList<Pacman> pacmans;
 	private ArrayList<Pacman> ghosts;
 	private Player player;
 
+
 	public Game() {
+		init();
+
+	}
+	private void init(){
+
 		fruits = new ArrayList<>();
 		blocks = new ArrayList<>();
 		pacmans = new ArrayList<>();
@@ -63,7 +70,6 @@ public class Game {
 			}
 	}
 
-
 	public Game(String path) {
 
 		fruits = new ArrayList<>();
@@ -76,7 +82,7 @@ public class Game {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(path));
 			String content = br.readLine();
-			
+
 			String line = br.readLine();
 			while (line != null) {
 				if (line.startsWith("M")) {
@@ -108,7 +114,14 @@ public class Game {
 			System.out.println(e.toString());
 		}
 	}
+
+	/**
+	 *
+	 * @param new_data ArrayList on new Data.
+	 * update the game by this data
+	 */
 	public void refresh(ArrayList<String> new_data){
+
 		pacmans.clear();
 		blocks.clear();
 		ghosts.clear();
@@ -141,6 +154,11 @@ public class Game {
 			}
 		}
 	}
+
+	/**
+	 * copy constructor
+	 * @param g
+	 */
 	public Game (Game g) {
 		
 		fruits = new ArrayList<>();
@@ -164,6 +182,15 @@ public class Game {
 		player = new Player(g.getPlayer());
 
 	}
+
+
+
+
+
+
+
+	////////////////////getters and setters////////////////////
+
 	public ArrayList<Fruit> getFruits() {return fruits;}
 	public void setFruits(ArrayList<Fruit> fruits) {this.fruits = fruits;}
 	public ArrayList<Block> getBlocks() {return blocks;}
@@ -174,6 +201,5 @@ public class Game {
 	public void setGhosts(ArrayList<Pacman> ghosts) {this.ghosts = ghosts;}
 	public Player getPlayer() {return player;}
 	public void setPlayer(Player player) {this.player = player;}
-	public int getBlockId() { return blockId; }
-	public void setBlockId(int blockId) { this.blockId = blockId; }
+
 }

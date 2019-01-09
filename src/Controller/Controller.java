@@ -5,8 +5,8 @@ import Creatures.Fruit;
 import Creatures.Player;
 import GUI.Board;
 import GUI.myFrame;
+import Game.Game;
 import Robot.Play;
-
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
@@ -14,12 +14,17 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * our program adapts the "MVC" pattern - Model, View, Controller.
+ * this class represents the "Controller". the brain of the MVS pattern.
+ * the controller knows all the classes it needs for the program, in particular the board(view) and game(model).
+ * there is no "thinking" function in the view and model classes - all made in here.
+ */
 public class Controller implements Observer {
 
-
     private Game game;
-    private myFrame frame;
     private Map map;
+    private myFrame frame;
     private Board board;
     private Play play;
     private ArrayList<String> board_data;
@@ -29,7 +34,7 @@ public class Controller implements Observer {
     private GraphBuilder builder;
     private MyCoords coords = new MyCoords();
     private Target target;
-    private boolean firstTimeRun = true, runThread = false;
+    private boolean firstTimeRun = true, runThread = false, runAlgo = false;
 
     public Controller() {
 
@@ -38,12 +43,16 @@ public class Controller implements Observer {
         board = new Board(game, map);
         frame = new myFrame(board);
         board_data = new ArrayList<>();
+
         // Init next step to player's current point
         nextStep = new Point3D(game.getPlayer().getPoint());
         initListeners();
     }
 
-    // Update from board on mouse clicked
+    /** Update from board on mouse clicked
+     * the observer object just changed -> start the update function
+      */
+
     @Override
     public void update(Observable o, Object arg) {
         nextStep = ((nextStep) o).getPoint();
@@ -67,67 +76,52 @@ public class Controller implements Observer {
         }
     }
 
+    /**
+     * init the listeners from the board.
+     * dou to MVS pattern the controller control the listeners
+     */
     private void initListeners() {
 
         // If clicked on add player -> set to true
-        frame.getAddPlayerButton().addActionListener(e -> {
-            board.setAddPlayer(true);
-        });
-
+        frame.getAddPlayerButton().addActionListener(e -> { board.setAddPlayer(true); });
         // If clicked on doNextStep step by step -> doNextStep game
         frame.getRunStep().addActionListener(e -> {
             board.setRunStepByStep(true);
             board.setAutoRun(false);
         });
-
         // if clicked on loadGame -> initGame
         frame.getLoadGame().addActionListener(e -> {
             initGame();
 
         });
-
+        // if clicked on AutoRun -> set in board AutoRun
         frame.getAutoRun().addActionListener(e -> {
             board.setRunStepByStep(false);
             board.setAutoRun(true);
             createThread();
         });
-
+        // if clicked runAlgo -> set autoAlgorithem function to start the program
         frame.getRunAlgo().addActionListener(e -> {
             board.setRunStepByStep(false);
             board.setAutoRun(false);
-            board.setRunAlgo(true);
-
+            runAlgo = true;
             autoAlgorithm();
 
         });
 
+        frame.getOpenStatics().addActionListener(e -> {
+
+
+        });
 
         // Controller is observing the next step OBSERVABLE object
         observe(board.getNextStep());
     }
 
     private void autoAlgorithm() {
-
-
         initServer();
         createThread();
         RunThread();
-
-       /*builder = new GraphBuilder(board);
-       builder.PrintAllTaregets();
-
-
-
-       target = builder.getClosestTarget();
-        System.out.println("the closest is :\n");
-        System.out.println(target);
-        for (int i = 0; i<builder.getVertices().size(); i++){
-            System.out.println("index: "+i );
-            System.out.println("the point is: " + builder.getVertices().get(i).getPoint().get_y() + ", "+builder.getVertices().get(i).getPoint().get_x() );
-        }
-
-        System.out.println(game.getPlayer().getPoint().get_y()+ "," +game.getPlayer().getPoint().get_x());*/
-
     }
 
 
@@ -149,7 +143,7 @@ public class Controller implements Observer {
 
         play = new Play(pathFile);
         game.refresh(play.getBoard());
-        board.update();
+        board.repaint();
 
     }
 
@@ -176,100 +170,7 @@ public class Controller implements Observer {
         System.out.println(play.getStatistics());
         game.refresh(board_data);
         // repaint
-        board.update();
-    }
-
-
-    public ArrayList<String> getBoard_data() {
-        return board_data;
-    }
-
-    public void setBoard_data(ArrayList<String> board_data) {
-        this.board_data = board_data;
-    }
-
-    public Point3D getNextStep() {
-        return nextStep;
-    }
-
-    public void setNextStep(Point3D nextStep) {
-        this.nextStep = nextStep;
-    }
-
-    public double getAzimut() {
-        return azimut;
-    }
-
-    public void setAzimut(double azimut) {
-        this.azimut = azimut;
-    }
-
-    public boolean isFirstTimeRun() {
-        return firstTimeRun;
-    }
-
-    public void setFirstTimeRun(boolean firstTimeRun) {
-        this.firstTimeRun = firstTimeRun;
-    }
-
-    public boolean isRunThread() {
-        return runThread;
-    }
-
-    public void setRunThread(boolean runThread) {
-        this.runThread = runThread;
-    }
-
-    public Game getGame() {
-        return game;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
-    }
-
-    public myFrame getFrame() {
-        return frame;
-    }
-
-    public void setFrame(myFrame frame) {
-        this.frame = frame;
-    }
-
-    public Map getMap() {
-        return map;
-    }
-
-    public void setMap(Map map) {
-        this.map = map;
-    }
-
-    public Board getBoard() {
-        return board;
-    }
-
-    public void setBoard(Board board) {
-        this.board = board;
-    }
-
-    public Play getPlay() {
-        return play;
-    }
-
-    public void setPlay(Play play) {
-        this.play = play;
-    }
-
-    public PlayerThread getPlayerThread() {
-        return playerThread;
-    }
-
-    public void setPlayerThread(PlayerThread playerThread) {
-        this.playerThread = playerThread;
-    }
-
-    private void observe(Observable o) {
-        o.addObserver(this);
+        board.repaint();
     }
 
     /**
@@ -279,6 +180,11 @@ public class Controller implements Observer {
         playerThread.start();
     }
 
+    /**
+     *
+     * @param fruitPoint
+     * @return if the fruit still in the fruits List
+     */
     public boolean isIn(Point3D fruitPoint){
         for (Fruit fruit : game.getFruits()){
             if (fruitPoint.get_x() == fruit.getPoint().get_x() && fruitPoint.get_y() == fruit.getPoint().get_y()){
@@ -291,32 +197,47 @@ public class Controller implements Observer {
      * create from player -> ThreadPlayer
      */
 
+    /**
+     * create the Thread
+     */
     private void createThread() {
         playerThread = new PlayerThread(game.getPlayer());
     }
 
+    /**
+     * this class represent PlayerThread.
+     * it can be run by 2 options:
+     * 1. autoRun - by clicks
+     * 2. by Algrorithem
+     */
     class PlayerThread extends Thread {
         private Player player;
         private boolean flag = true;
 
+        /**
+         * constructor of the PlayerThread
+         * @param player
+         */
         public PlayerThread(Player player) {
             this.player = game.getPlayer();
+
         }
-        public void setPlayer(){
-            this.player = game.getPlayer();
-        }
+
+        public void setPlayer(){ this.player = game.getPlayer(); }
 
         @Override
-        public void run() {
-
-            System.out.println("in run");
+        /**
+         * the run method can be activated or woth clicks or with algorithem
+         */
+        public void run()
+        {
             if (board.isAutoRun()) {
-                System.out.println("> In ThredRun");
+
                 while (play.isRuning()) {
                     play.rotate(azimut);
                     ArrayList<String> board_data = play.getBoard();
                     board.getGame().refresh(board_data);
-                    board.update();
+                    board.repaint();
                     System.out.println(play.getStatistics());
                     try {
                         sleep(25);
@@ -326,19 +247,16 @@ public class Controller implements Observer {
                 }
             }
 
-            else if (board.isRunAlgo()) {
+            else if (runAlgo) {
 
                 boolean getOut;
                 boolean reachDes;
-
-                while (play.isRuning()) {
+                while (play.isRuning() && !game.getFruits().isEmpty()) {
                     getOut = false;
                     reachDes = true;
                     game.refresh(play.getBoard());
-                    builder = new GraphBuilder(board);
+                    builder = new GraphBuilder(game, board.getConvertor());
                     target = builder.getClosestTarget();
-
-
                     Point3D targetPoint = (target.getFruit().getPoint());
                     ArrayList<String> path = target.getPath();
 
@@ -351,7 +269,7 @@ public class Controller implements Observer {
                                 double[] azimut = coords.azimuth_elevation_dist(player.getPoint(), targetPoint);
                                 play.rotate(azimut[0]);
                                 game.refresh(play.getBoard());
-                                //System.out.println(play.getStatistics());
+                                System.out.println(play.getStatistics());
                                 setPlayer();
                                 board.repaint();
 
@@ -412,6 +330,7 @@ public class Controller implements Observer {
                                         double[] azimut = coords.azimuth_elevation_dist(player.getPoint(), nextPointInPathInGPS);
                                         play.rotate(azimut[0]);
                                         game.refresh(play.getBoard());
+                                        System.out.println(play.getStatistics());
                                         setPlayer();
                                         board.repaint();
 
@@ -440,4 +359,71 @@ public class Controller implements Observer {
                 }
             }
         }
+
+    ////////////////////getters and setters////////////////////
+
+    // all the getters and setters
+    public ArrayList<String> getBoard_data() {
+        return board_data;
     }
+    public void setBoard_data(ArrayList<String> board_data) {
+        this.board_data = board_data;
+    }
+    public Point3D getNextStep() {
+        return nextStep;
+    }
+    public void setNextStep(Point3D nextStep) {
+        this.nextStep = nextStep;
+    }
+    public double getAzimut() {
+        return azimut;
+    }
+    public void setAzimut(double azimut) {
+        this.azimut = azimut;
+    }
+    public boolean isFirstTimeRun() {
+        return firstTimeRun;
+    }
+    public void setFirstTimeRun(boolean firstTimeRun) {
+        this.firstTimeRun = firstTimeRun;
+    }
+    public boolean isRunThread() {
+        return runThread;
+    }
+    public void setRunThread(boolean runThread) {
+        this.runThread = runThread;
+    }
+    public Game getGame() {
+        return game;
+    }
+    public void setGame(Game game) {
+        this.game = game;
+    }
+    public myFrame getFrame() {
+        return frame;
+    }
+    public void setFrame(myFrame frame) {
+        this.frame = frame;
+    }
+    public Board getBoard() {
+        return board;
+    }
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+    public Play getPlay() {
+        return play;
+    }
+    public void setPlay(Play play) {
+        this.play = play;
+    }
+    public PlayerThread getPlayerThread() {
+        return playerThread;
+    }
+    public void setPlayerThread(PlayerThread playerThread) {
+        this.playerThread = playerThread;
+    }
+    private void observe(Observable o) {
+        o.addObserver(this);
+    }
+}

@@ -4,6 +4,7 @@ import Accessories.*;
 import Creatures.Block;
 import Creatures.Fruit;
 import Creatures.Pacman;
+import Game.Game;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -15,6 +16,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Observable;
 
+/**
+ * this class represents the Board of the game(view)
+ */
+
 public class Board extends JPanel implements MouseListener {
     private  boolean addPlayer;
     private boolean runStepByStep;
@@ -24,9 +29,6 @@ public class Board extends JPanel implements MouseListener {
     private Game game;
     private Map map;
     private BufferedImage mapImage, cherry, pacman, ghost, player;
-
-
-
     private Convertors convertor;
     private static int x;
     private static int y;
@@ -41,6 +43,9 @@ public class Board extends JPanel implements MouseListener {
         initGUI();
     }
 
+    /**
+     * init the board characters
+     */
     private void initGUI(){
         try {
             mapImage = map.getMyMap();
@@ -73,16 +78,20 @@ public class Board extends JPanel implements MouseListener {
         }
     }
 
-    public void paint(Graphics g){
+    /**
+     *
+     * @param g paint function of the gui
+     */
+    public synchronized void paint(Graphics g){
 
         int width = this.getWidth();
         int height = this.getHeight();
         g.drawImage(mapImage, 0, 0,width,height, this);
 
-        //map.buildConvertor();
         convertor = new Convertors(height, width, 35.20238, 35.21236, 32.10190, 32.10569);
 
         for (Pacman pac : game.getPacmans()){
+
             int[] pixels = convertor.gps2Pixels(pac.getPoint());
             g.drawImage(pacman,pixels[0],pixels[1], null);
         }
@@ -97,7 +106,7 @@ public class Board extends JPanel implements MouseListener {
             int[] pixels = convertor.gps2Pixels(gh.getPoint());
             g.drawImage(ghost,pixels[0],pixels[1], null);
         }
-        int c = 1;
+
         for (Block block : game.getBlocks()){
             //Point3D p = new  Point3D(block.getTopLeft().x(),block.getTopLeft().get_y(),0);
             int[] pixels = convertor.gps2Pixels(block.getTopLeft());
@@ -107,11 +116,6 @@ public class Board extends JPanel implements MouseListener {
             int widthDis = pixelsWidth[0] - pixels[0];
             int heigtDis = pixelsHeight[1] - pixels[1];
 
-            for (int i = 0 ; i<block.getPoints().length; i++){
-                 g.drawString("" + c , (int)block.getPoints()[i].get_x(),(int)block.getPoints()[i].get_y());
-                c++;
-            }
-
             g.fillRect(pixels[0], pixels[1], widthDis, heigtDis);
         }
 
@@ -119,24 +123,30 @@ public class Board extends JPanel implements MouseListener {
             int[] pixels = convertor.gps2Pixels(game.getPlayer().getPoint());
             g.drawImage(player ,pixels[0],pixels[1], null);
         }
-
     }
 
-    public void update(){
-        repaint();
-    }
-
+    /**
+     *
+     * @param e when clicked ->
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         x = e.getX();
         y = e.getY();
 
+        System.out.println(x +", "+ y);
+
+
+        // if add player ->
         if (addPlayer) {
             Point3D playerPoint = convertor.pixel2Gps(x,y);
             game.getPlayer().setPoint(playerPoint);
 
             clickStep = new Point3D(playerPoint);
             addPlayer = false;
+
+            System.out.println(playerPoint.get_x() +", " + playerPoint.get_y());
+
 
             repaint();
         }
@@ -152,6 +162,8 @@ public class Board extends JPanel implements MouseListener {
 
         }
 
+        //// On every mouse click, change player location/point
+
         if (autoRun){
 
             Point3D newPoint = convertor.pixel2Gps(x,y);
@@ -159,7 +171,6 @@ public class Board extends JPanel implements MouseListener {
 
             // Updates observers -> Controller
             ((nextStep) nextStep).setPoint(clickStep , game.getPlayer().getPoint());
-
         }
     }
 
@@ -171,6 +182,11 @@ public class Board extends JPanel implements MouseListener {
     public void mouseEntered(MouseEvent e) { }
     @Override
     public void mouseExited(MouseEvent e) { }
+
+
+
+
+    //////////////////////getters and setters//////////////////
 
     public Game getGame() { return game; }
     public void setGame(Game game) { this.game = game; }
