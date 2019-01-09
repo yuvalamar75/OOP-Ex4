@@ -8,32 +8,40 @@ import java.text.NumberFormat;
 import java.util.Arrays;
 
 public class SQL {
-   private static double[] clickModePoints= new double[9];
-   private static double[] algorithmModePoints = new double[9];
-   private static double[] generalPoints = new double[9];
-   private static int[] clickModecounter = new int[9];
+    private static double[] clickModePoints= new double[9];
+    private static double[] algorithmModePoints = new double[9];
+    private static double[] generalPoints = new double[9];
+    private static int[] clickModecounter = new int[9];
     private static int[] algorithmModeCounter = new int[9];
     private static int[] generalCounter = new int[9];
     private static NumberFormat formatter = new DecimalFormat("#0.000");
-   private static double algorithmAVG = 0;
+    private static double algorithmAVG = 0;
     private static double generalAVG = 0;
     private static double clickModeAVG = 0;
     private static  String algorithmAVGS = "";
     private static String clickModeAVGS = "";
     private static  String generalAVGS = "";
+    private static String results;
     private static SQLDisplay display;
+    private boolean getDataRun;
     // In constructr -> open new SQLDisplay.
     public SQL(){
 
-         display = new SQLDisplay();
-         getdata();
+        System.out.println("int sql constructor");
+        getDataRun = false;
+        display = new SQLDisplay();
+        getdata();
+        getStatistics();
     }
 
     /**
      * This function get the data from the data-base,then calculate the average of the points for each map.
-     * @return String og the data for each map
+     * @return build array with all the data from the sql.
      */
     public  void getdata() {
+        System.out.println("int get data func");
+        //if (!getDataRun) {
+        getDataRun = true;
         String results = "";
         String jdbcUrl = "jdbc:mysql://ariel-oop.xyz:3306/oop"; //?useUnicode=yes&characterEncoding=UTF-8&useSSL=false";
         String jdbcUser = "student";
@@ -232,14 +240,16 @@ public class SQL {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        results = "Map number \t\t Algorithm Mode AVG \t\t  Click Mode AVG \t\t General average \t\t Total Map Played \n";
+    }
 
+    public void getStatistics() {
+        results = "Map number \t\t Algorithm Mode AVG \t\t  Click Mode AVG \t\t General average \t\t Total Map Played \n";
         //Getting the statistc from the data in the sql.
         for (int i = 0; i < 9; i++) {
 
             if (algorithmModeCounter[i] == 0) {
                 algorithmAVG = 0;
-                algorithmAVGS = formatter.format(String.valueOf(algorithmAVG));
+                algorithmAVGS = formatter.format(algorithmAVG);
             } else {
                 algorithmAVG = algorithmModePoints[i] / algorithmModeCounter[i];
                 algorithmAVGS = formatter.format(algorithmAVG);
@@ -261,15 +271,25 @@ public class SQL {
 
             }
             int totalGamePlayed = clickModecounter[i] + algorithmModeCounter[i];
-            results = results +"   " +(i + 1) + ")" + "\t\t\t\t" + algorithmAVGS + "\t\t\t       " + clickModeAVGS + "\t\t\t     " + generalAVGS + "\t\t\t        " + totalGamePlayed + "\n";
+            results = results + "   " + (i + 1) + ")" + "\t\t\t\t" + algorithmAVGS + "\t\t\t       " + clickModeAVGS + "\t\t\t     " + generalAVGS + "\t\t\t        " + totalGamePlayed + "\n";
             // frame.getTextArea().append(results);
 
 
         }
-        display.getText().append(results);
+       for(int i = 0 ; i < 9 ; i++){
+            clickModecounter[i] = 0;
+            clickModePoints[i] = 0;
+            algorithmModeCounter[i] = 0;
+            algorithmModePoints[i] = 0 ;
+            generalCounter[i] = 0;
+            generalPoints[i] = 0;
 
+        }
+        display.getText().append(results);
     }
+    //}
 }
+
 
 
 
