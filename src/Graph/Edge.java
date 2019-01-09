@@ -1,4 +1,4 @@
-package GraphObject;
+package Graph;
 
 public class Edge
 {

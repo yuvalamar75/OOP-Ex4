@@ -4,8 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class myFrame extends JFrame {
-
-   //private boolean runB;
+    /**
+     * this class represents the frame
+     */
     private int x;
     private int y;
     private Board gameBoard;
@@ -14,8 +15,11 @@ public class myFrame extends JFrame {
     private MenuItem runStep;
     private MenuItem autoRun;
     private MenuItem runAlgo;
+    private MenuItem openStatics;
 
-
+    /**
+     * @param gameBoard build the frame with given board
+     */
     public myFrame(Board gameBoard){
 
         this.gameBoard = gameBoard;
@@ -25,7 +29,8 @@ public class myFrame extends JFrame {
         this.setTitle("Pacman");
         setVisible(true);
 
-       // this.addComponentListener(this);
+
+        ////////////////////////////menuBar and MenuItems////////////////////////
 
         MenuBar main = new MenuBar();
         this.setMenuBar(main);
@@ -56,33 +61,37 @@ public class myFrame extends JFrame {
 
         autoRun = new MenuItem("Auto Run");
         run.add(autoRun);
+
+        Menu statics = new Menu("Statics");
+        main.add(statics);
+
+        openStatics = new MenuItem("view Statics");
+        statics.add(openStatics);
+
+
+
+
     }
 
-    @Override
-    public int getX() {
-        return x;
-    }
-    public MenuItem getRunStep() {
-        return runStep;
-    }
-    public MenuItem getAddPlayerButton() {
-        return addPlayerButton;
-    }
+
+    ///////////////////getters ans setters////////////////////////////////
+
+    public int getX() { return x; }
+    public MenuItem getRunStep() { return runStep; }
+    public MenuItem getAddPlayerButton() { return addPlayerButton; }
     public Board getGameBoard() { return gameBoard; }
     public void setGameBoard(Board gameBoard) { this.gameBoard = gameBoard; }
     public MenuItem getLoadGame() { return loadGame; }
     public void setLoadGame(MenuItem loadGame) { this.loadGame = loadGame; }
     public void setX(int x) { this.x = x; }
-    //public boolean isRunB() { return runB; }
-   // public void setRunB(boolean runB) { this.runB = runB; }
     public MenuItem getAutoRun() { return autoRun; }
     public void setAutoRun(MenuItem autoRun) { this.autoRun = autoRun; }
-    @Override
     public int getY() { return y; }
     public void setY(int y) { this.y = y; }
-
     public MenuItem getRunAlgo() { return runAlgo; }
     public void setRunAlgo(MenuItem runAlgo) { this.runAlgo = runAlgo; }
+    public MenuItem getOpenStatics() { return openStatics; }
+    public void setOpenStatics(MenuItem openStatics) { this.openStatics = openStatics; }
 
 }
 

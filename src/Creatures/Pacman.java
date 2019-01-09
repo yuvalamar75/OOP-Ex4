@@ -2,6 +2,9 @@ package Creatures;
 
 import Accessories.Point3D;
 
+/**
+ * this class represent pacman
+ */
 public class Pacman {
 	
 	private Point3D point;
@@ -9,8 +12,11 @@ public class Pacman {
 	private double radius;
 	private double speed;
 	private String type;
-	//private int counter = 0 ;
-	
+
+    /**
+     *
+     * @param line builds a fruit from string
+     */
 	public Pacman(String line) {
 
 		String[] data = line.split(",");
@@ -21,14 +27,21 @@ public class Pacman {
 		radius = Double.parseDouble(data[6]);
 		
 	}
-
+    /**
+     *
+     * @return string describing the object
+     */
 	public String toString() {
 		String st = "";
 		st += "\n"+ type+", " + ID + ", " + point.x() + ", "+ point.y()+" 0" + ", "+ radius +", "+ speed;
 		return st;
 
 	}
-	
+
+    /**
+     *
+     * @param p copy constructor
+     */
 	public Pacman(Pacman p) {
 		this.point = p.point;
 		this.ID = p.ID;
@@ -37,9 +50,9 @@ public class Pacman {
 		this.type = p.type;
 	}
 
-	
 
 
+//////////////////getters ans setters/////////////////////////
 	
 	public Point3D getPoint() {return point;}
 	public void setPoint(Point3D point) {this.point = point;}

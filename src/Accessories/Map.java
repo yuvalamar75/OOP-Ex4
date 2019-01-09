@@ -1,8 +1,6 @@
 package Accessories;
 
-//import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
-//import javafx.geometry.Point2D;
-
+import Accessories.Convertors;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -63,20 +61,7 @@ public class Map {
         convertor = new Convertors(mapHeight ,mapWidth, leftButtomX, topRightX, leftButtomY, topRightY);
 
     }
-    /**
-     * 	this function get 2 pixels and return the distance.
-     * @param p0 array for point0
-     * @param p1 array for point1
-     * @return the distanced between 2pixels
-     */
-   /* public double dis2 (int [] p0, int [] p1) {
-        Point3D p = Convertors.pixel2Gps(p0[0], p0[1]);
-        Point3D p2 = Convertors.pixel2Gps(p1[0], p1[1]);
 
-        double dis = p.distance3D(p2);
-        return dis;
-
-    }*/
 
     public double getMapWidth() { return mapWidth; }
     public double getMapHeight() { return mapHeight; }

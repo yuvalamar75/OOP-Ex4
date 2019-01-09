@@ -3,7 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-package GraphObject;
+package Graph;
 
 import java.util.ArrayList;
 

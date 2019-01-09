@@ -2,6 +2,9 @@ package Creatures;
 
 import Accessories.Point3D;
 
+/**
+ * this class represent block
+ */
 public class Block {
 
 	private String type;
@@ -18,9 +21,10 @@ public class Block {
 	private Point3D topLeft;
 	private Point3D [] points = new Point3D[4];
 
-	private double height;
-	private double width;
-
+    /**
+     *
+     * @param line build a block from string
+     */
 	public Block(String line) {
 		String[] data = line.split(",");
 		type = "B";
@@ -36,11 +40,9 @@ public class Block {
 		topRight = new Point3D(maxLon,maxLat);
 		bottomRight = new Point3D(maxLon, minLat);
 		topLeft = new Point3D(minLon, maxLat);
-
 		createVertices();
-
-
 	}
+
 	//create array with all the corners of the block
 	private void createVertices() {
 		points[0] = topLeft;
@@ -49,9 +51,10 @@ public class Block {
 		points[3] = bottomLeft;
 	}
 
-
-	//Copy constructor.
-
+    /**
+     *
+     * @param bcopy constructor
+     */
 	public Block(Block b) {
 		this.ID = b.ID;
 		this.minLat = b.minLat;
@@ -66,12 +69,20 @@ public class Block {
 		this.points = b.points;
 	}
 
+    /**
+     *
+     * @return string describing the object
+     */
 	public String toString() {
 		String st = "";
 		st += "\n" + type + ", " + ID + ", " + ", " + ", " + bottomLeft.x() + ", " + bottomLeft.y() + ", " + topRight.x() + ", " + topRight.y();
 		return st;
 
 	}
+
+
+	//////////////////getters ans setters/////////////////////////
+
 	public String getType() {return type;}
 	public void setType(String type) {this.type = type;}
 	public int getID() {return ID;}
