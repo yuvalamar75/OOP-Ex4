@@ -27,6 +27,7 @@ public class Controller implements Observer {
     private myFrame frame;
     private Board board;
     private Play play;
+    private SQL sql;
     private ArrayList<String> board_data;
     private PlayerThread playerThread;
     private Point3D nextStep;
@@ -43,6 +44,7 @@ public class Controller implements Observer {
         board = new Board(game, map);
         frame = new myFrame(board);
         board_data = new ArrayList<>();
+        sql = new SQL();
 
         // Init next step to player's current point
         nextStep = new Point3D(game.getPlayer().getPoint());
@@ -110,6 +112,7 @@ public class Controller implements Observer {
         });
 
         frame.getOpenStatics().addActionListener(e -> {
+
 
 
         });
