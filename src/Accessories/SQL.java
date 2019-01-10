@@ -36,7 +36,6 @@ public class SQL {
 
     /**
      * This function get the data from the data-base,then calculate the average of the points for each map.
-     * @return build array with all the data from the sql.
      */
     public  void getdata() {
         System.out.println("int get data func");

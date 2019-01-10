@@ -37,9 +37,9 @@ public class MyCoords implements coords_converter{
 	}
 	/** 
 	 * computes the 3D distance (in meters) between the two gps like points 
-	 * @param gps0
-	 * @param gps1
-	 * @return
+	 *  @param gps0 the gps location of point a
+	 * 	  @param gps1 the gps location of point b
+	 * @return double distanced betwwn tow points
 	 */
 	public double distance3d(Point3D gps0, Point3D gps1) {
 		if(isValid_GPS_Point(gps0)==false) return (Double) Double.MIN_VALUE;//test if the point is valid gps point
@@ -86,8 +86,11 @@ public class MyCoords implements coords_converter{
 
 
 	}
-	/** computes the polar representation of the 3D vector be gps0-->gps1 
-	 * Note: this method should return an azimuth (aka yaw), elevation (pitch), and distance*/
+	/** computes the polar representation of the 3D vector be gps0 gps1
+	 * Note: this method should return an azimuth (aka yaw), elevation (pitch), and distance
+	 * @param gps0 the gps location of point a
+	 * 	@param gps1 the gps location of point b
+	 * */
 	@Override
 	public double [] azimuth_elevation_dist(Point3D gps0, Point3D gps1) {
 		double azimut = 0;
@@ -119,7 +122,7 @@ public class MyCoords implements coords_converter{
 
 	/**
 	 * return true iff this point is a valid lat, lon , lat coordinate: [-180,+180],[-90,+90],[-450, +inf]
-	 * @param p
+	 * @param p if this valid point
 	 * @return boolen true/false.
 	 */
 

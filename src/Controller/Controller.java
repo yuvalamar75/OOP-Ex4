@@ -16,9 +16,10 @@ import java.util.Observer;
 
 /**
  * our program adapts the "MVC" pattern - Model, View, Controller.
- * this class represents the "Controller". the brain of the MVS pattern.
+ * this class represents the "Controller". the brain of the MVc pattern.
  * the controller knows all the classes it needs for the program, in particular the board(view) and game(model).
- * there is no "thinking" function in the view and model classes - all made in here.
+ *
+ * @author YuvalAmar and Dvir Hacohen
  */
 public class Controller implements Observer {
 
@@ -52,7 +53,7 @@ public class Controller implements Observer {
     }
 
     /** Update from board on mouse clicked
-     * the observer object just changed -> start the update function
+     * the observer object just changed  start the update function
       */
 
     @Override
@@ -85,7 +86,8 @@ public class Controller implements Observer {
     private void initListeners() {
 
         // If clicked on add player -> set to true
-        frame.getAddPlayerButton().addActionListener(e -> { board.setAddPlayer(true); });
+        frame.getAddPlayerButton().addActionListener(e -> {
+            board.setAddPlayer(true); });
         // If clicked on doNextStep step by step -> doNextStep game
         frame.getRunStep().addActionListener(e -> {
             board.setRunStepByStep(true);
@@ -122,6 +124,22 @@ public class Controller implements Observer {
     }
 
     private void autoAlgorithm() {
+
+
+        ///
+
+        if (game.getPlayer().getPoint().get_x() == 0) {
+            Point3D fruitPoint = null;
+            int sizeArrayFruit = game.getFruits().size();
+            int randomIDFruit = (int) ((Math.random())*sizeArrayFruit);
+            for (int i = 0; i<sizeArrayFruit ; i++){
+                if( i == randomIDFruit ){
+                    fruitPoint = new Point3D(game.getFruits().get(i).getPoint());
+                }
+            }
+            Player player = new Player( fruitPoint.get_x()-0.00001,fruitPoint.get_y()-0.00001,20);
+            game.setPlayer(player);
+        }
         initServer();
         createThread();
         RunThread();
@@ -138,15 +156,22 @@ public class Controller implements Observer {
                 "CSV files (*csv)", "csv");
         jfc.setFileFilter(filter);
         int ret = jfc.showOpenDialog(this.frame);
+
         if (ret == JFileChooser.APPROVE_OPTION) {
             File file = jfc.getSelectedFile();
             pathFile = file.getAbsolutePath();
 
         }
 
-        play = new Play(pathFile);
-        game.refresh(play.getBoard());
-        board.repaint();
+
+        if(pathFile.length() !=0 ) {
+            play = new Play(pathFile);
+            game.refresh(play.getBoard());
+            board.repaint();
+        }
+
+
+
 
     }
 
@@ -185,7 +210,7 @@ public class Controller implements Observer {
 
     /**
      *
-     * @param fruitPoint
+     * @param fruitPoint to check if in
      * @return if the fruit still in the fruits List
      */
     public boolean isIn(Point3D fruitPoint){
@@ -264,7 +289,6 @@ public class Controller implements Observer {
                     ArrayList<String> path = target.getPath();
 
                         if (path.size() == 1 && isIn(targetPoint) && getOut == false) {
-                            System.out.println("stright to fruit");
                             //System.out.println("this dis is : "+ target.getDistance());
                             while (isIn(targetPoint) && play.isRuning() && player.getPoint().distance3DInGps(targetPoint) > 1)
                             {
@@ -287,14 +311,13 @@ public class Controller implements Observer {
 
                         //if the path is biiger then 1.
 
-                        if (path.size() > 1 && isIn(targetPoint)) {
+                        if (path.size() > 1 && isIn(targetPoint) && play.isRuning()) {
 
                             // this is wehere i get out from break
                             for (int i = 1; i < target.getPath().size() && getOut == false ; i++) {
                                 reachDes = false;
                                 if ( i == path.size() && getOut == false && isIn(targetPoint)){
 
-                                    System.out.println("to the last fruit");
                                     while (isIn(targetPoint) || play.isRuning() ){
                                         double[] azimut = coords.azimuth_elevation_dist(player.getPoint(), targetPoint);
                                         play.rotate(azimut[0]);
@@ -318,13 +341,12 @@ public class Controller implements Observer {
                                     if (!isIn(targetPoint) || !play.isRuning() || getOut || reachDes){
                                         continue;
                                     }
-                                    System.out.println("stil in the path");
 
                                     int nextIndexInPath = Integer.parseInt(target.getPath().get(i));
                                     Point3D nextPointInPathInPixels = builder.getVertices().get(nextIndexInPath).getPoint();
                                     Point3D nextPointInPathInGPS = board.getConvertor().pixel2Gps(nextPointInPathInPixels.get_x(), nextPointInPathInPixels.get_y());
 
-                                    while (isIn(targetPoint) && !player.getPoint().equals(nextPointInPathInGPS) && reachDes == false) {
+                                    while (isIn(targetPoint) && !player.getPoint().equals(nextPointInPathInGPS) && reachDes == false & play.isRuning())  {
                                         if(player.getPoint().distance3DInGps(nextPointInPathInGPS)<2){
                                             reachDes = true;
                                             continue;

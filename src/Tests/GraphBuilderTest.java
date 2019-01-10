@@ -8,6 +8,8 @@ import Creatures.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class GraphBuilderTest {
@@ -16,7 +18,9 @@ class GraphBuilderTest {
      void setUp() {
 
         //set up game
-        Game game = new Game("Ex4_OOP_example5.csv");
+        File resourcesDirectory = new File("resources/Ex4_OOP_example5.csv");
+        String path = resourcesDirectory.getAbsolutePath();
+        Game game = new Game(path);
         //set up player
         Player player = new Player(35.21070936386768, 32.103782167042894, 20);
         game.setPlayer(player);

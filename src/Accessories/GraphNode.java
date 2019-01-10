@@ -16,7 +16,7 @@ public class GraphNode {
 
     /**
      * create the object with the given point, and give it ID.
-     * @param point
+     * @param point ot the node value
      */
     public GraphNode(Point3D point){
         this.pointPixels = point;

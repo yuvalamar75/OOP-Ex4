@@ -53,7 +53,7 @@ public class Block {
 
     /**
      *
-     * @param bcopy constructor
+     * @param b copy constructor
      */
 	public Block(Block b) {
 		this.ID = b.ID;
