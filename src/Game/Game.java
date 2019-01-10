@@ -40,6 +40,8 @@ public class Game {
 		blocks = new ArrayList<>();
 		pacmans = new ArrayList<>();
 		ghosts = new ArrayList<>();
+		player = null;
+
 
 
 			for (int i=0 ; i< playersInboard.size(); i++ ){
@@ -47,6 +49,7 @@ public class Game {
 
 				if (line.startsWith("M")) {
 					player = new Player(line);
+					setPlayer(player);
 
 				}
 				if (line.startsWith("P")) {
@@ -76,7 +79,7 @@ public class Game {
 		blocks = new ArrayList<>();
 		pacmans = new ArrayList<>();
 		ghosts = new ArrayList<>();
-		player = null;
+		player = new Player(0 ,0 , 20);
 
 
 		try {
@@ -87,6 +90,7 @@ public class Game {
 			while (line != null) {
 				if (line.startsWith("M")) {
 					player = new Player(line);
+					setPlayer(player);
 				}
 				if (line.startsWith("P")) {
 					Pacman p = new Pacman(line);
@@ -126,7 +130,7 @@ public class Game {
 		blocks.clear();
 		ghosts.clear();
 		fruits.clear();
-		setPlayer(null);
+		player = null;
 
 		for (int i=0 ; i< new_data.size(); i++ ){
 			String line = new_data.get(i);
@@ -157,7 +161,7 @@ public class Game {
 
 	/**
 	 * copy constructor
-	 * @param g
+	 * @param g reprenst game
 	 */
 	public Game (Game g) {
 		
@@ -181,6 +185,18 @@ public class Game {
 		}
 		player = new Player(g.getPlayer());
 
+	}
+
+	/**
+	 * clear the game
+	 */
+	public void clear(){
+
+		fruits.clear();
+		pacmans.clear();
+		blocks.clear();
+		ghosts.clear();
+		setPlayer(null);
 	}
 
 

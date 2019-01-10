@@ -17,9 +17,9 @@ public class Player {
 
     /**
      * builds Player from given lat, lon, speed
-     * @param lat
-     * @param lon
-     * @param Speed
+     * @param lat cordinate
+     * @param lon  cordinate
+     * @param Speed of the player pacman
      */
 	public Player( double lat, double lon, int Speed ) {
 		

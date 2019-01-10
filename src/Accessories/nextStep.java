@@ -13,8 +13,8 @@ public class nextStep extends Observable {
     private MyCoords coords = new MyCoords();
 
     /**
-     *
-     * @param point when mouse clicked -> set the point of the observer to be that point and notify the controller with new point and azimut
+     * @param  curr the current  point
+     * @param point when mouse clicked  set the point of the observer to be that point and notify the controller with new point and azimut
      */
     public void setPoint(Point3D point, Point3D curr) {
             synchronized (this) {

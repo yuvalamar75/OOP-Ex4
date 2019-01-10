@@ -51,8 +51,8 @@ public class Convertors {
     }
     /**
      *
-     * @param height
-     * @param width
+     * @param height of block
+     * @param width of th block
      * @param LeftButtomX the bottom GPS coordinate latitude
      * @param TopRightX the top GPS coordinate latitude
      * @param LeftButtomY the bottom GPS coordinate longtitude

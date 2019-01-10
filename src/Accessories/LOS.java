@@ -10,7 +10,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 /**
- * this class represent lineOfSight -> to check if 2 vertices in game can see each other
+ * this class represent lineOfSight  to check if 2 vertices in game can see each other
  */
 public class LOS {
 

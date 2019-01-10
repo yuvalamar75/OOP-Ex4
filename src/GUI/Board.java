@@ -82,7 +82,7 @@ public class Board extends JPanel implements MouseListener {
      *
      * @param g paint function of the gui
      */
-    public synchronized void paint(Graphics g){
+    public void paint(Graphics g){
 
         int width = this.getWidth();
         int height = this.getHeight();
@@ -90,44 +90,51 @@ public class Board extends JPanel implements MouseListener {
 
         convertor = new Convertors(height, width, 35.20238, 35.21236, 32.10190, 32.10569);
 
-        for (Pacman pac : game.getPacmans()){
+        try {
+            for (Pacman pac : game.getPacmans()) {
 
-            int[] pixels = convertor.gps2Pixels(pac.getPoint());
-            g.drawImage(pacman,pixels[0],pixels[1], null);
+                int[] pixels = convertor.gps2Pixels(pac.getPoint());
+                g.drawImage(pacman, pixels[0], pixels[1], null);
+            }
+            if (!game.getFruits().isEmpty()) {
+                for (Fruit f : game.getFruits()) {
+
+                    int[] pixels = convertor.gps2Pixels(f.getPoint());
+                    g.drawImage(cherry, pixels[0], pixels[1], null);
+                }
+            }
+
+            for (Pacman gh : game.getGhosts()) {
+                int[] pixels = convertor.gps2Pixels(gh.getPoint());
+                g.drawImage(ghost, pixels[0], pixels[1], null);
+            }
+
+            for (Block block : game.getBlocks()) {
+                //Point3D p = new  Point3D(block.getTopLeft().x(),block.getTopLeft().get_y(),0);
+                int[] pixels = convertor.gps2Pixels(block.getTopLeft());
+                int[] pixelsHeight = convertor.gps2Pixels(block.getBottomLeft());
+                int[] pixelsWidth = convertor.gps2Pixels(block.getTopRight());
+
+                int widthDis = pixelsWidth[0] - pixels[0];
+                int heigtDis = pixelsHeight[1] - pixels[1];
+
+                g.fillRect(pixels[0], pixels[1], widthDis, heigtDis);
+            }
+
+            if (player != null) {
+                int[] pixels = convertor.gps2Pixels(game.getPlayer().getPoint());
+                g.drawImage(player, pixels[0], pixels[1], null);
+            }
         }
 
-        for (Fruit f : game.getFruits()){
+        catch (Exception e){
 
-            int[] pixels = convertor.gps2Pixels(f.getPoint());
-            g.drawImage(cherry,pixels[0],pixels[1], null);
-        }
-
-        for (Pacman gh : game.getGhosts()){
-            int[] pixels = convertor.gps2Pixels(gh.getPoint());
-            g.drawImage(ghost,pixels[0],pixels[1], null);
-        }
-
-        for (Block block : game.getBlocks()){
-            //Point3D p = new  Point3D(block.getTopLeft().x(),block.getTopLeft().get_y(),0);
-            int[] pixels = convertor.gps2Pixels(block.getTopLeft());
-            int [] pixelsHeight = convertor.gps2Pixels(block.getBottomLeft());
-            int [] pixelsWidth = convertor.gps2Pixels(block.getTopRight());
-
-            int widthDis = pixelsWidth[0] - pixels[0];
-            int heigtDis = pixelsHeight[1] - pixels[1];
-
-            g.fillRect(pixels[0], pixels[1], widthDis, heigtDis);
-        }
-
-        if (player != null){
-            int[] pixels = convertor.gps2Pixels(game.getPlayer().getPoint());
-            g.drawImage(player ,pixels[0],pixels[1], null);
         }
     }
 
     /**
      *
-     * @param e when clicked ->
+     * @param e when clicked
      */
     @Override
     public void mouseClicked(MouseEvent e) {
