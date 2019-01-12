@@ -33,27 +33,22 @@ public class GraphBuilder {
      * @param convertor to compute the pixels
      */
     public GraphBuilder(Game game, Convertors convertor) {
-
-
         this.game = game;
         this.convertor = convertor;
         los = new LOS(game, convertor);
         vertices = new ArrayList<>();
         targts = new ArrayList<>();
-
         init();
-
     }
 
     public void init(){
-
+        PixelConvertor.changePixels(game,convertor);
         buildPathes();
     }
 
     /**
      * this method computes all the paths to each fruit.
      * it calls BfS to each fruit.
-     * running time complexity : O((|V|+|E|) * |F|)
      */
     public void buildPathes() {
 
@@ -61,7 +56,6 @@ public class GraphBuilder {
 
             GraphNode.resetCounterId();
             changePlayerPixels();
-            changeVerticesToPixels();
             addBlocksVertices();
             Point3D fruitPixels = new Point3D(fruit.getPixels()[0],fruit.getPixels()[1]);
             GraphNode fruitNode = new GraphNode(fruitPixels);
@@ -93,7 +87,7 @@ public class GraphBuilder {
                     continue;
                 } else if (node.getID() == pollNode.getID()) {
                     continue;
-                } else if (!los.LOS(pollNode.getPoint(), node.getPoint())) {
+                } else if (!los.isIntersects(pollNode.getPoint(), node.getPoint())) {
                     pollNode.getNeigbours().add(node);
                     if (node.getID() != fruitIndex) {
                         bfsQueue.add(node);
@@ -191,50 +185,6 @@ public class GraphBuilder {
 
         playerFlag = true;
 
-    }
-
-    /**
-     * this functions comoutes the pixels of the fruits abd block vertices
-     */
-    public void changeVerticesToPixels() {
-        //change the fruits points gps2pixels.
-        if (!converted) {
-            for (Fruit fruit : game.getFruits()) {
-                fruit.setPixels(convertor.gps2Pixels(fruit.getPoint()));
-            }
-            //change the blocks points gps2pixels.
-            for (Block block : game.getBlocks()) {
-                Point3D[] points = block.getPoints();
-                for (int i = 0; i < points.length; i++) {
-                    //change the point to pixels
-
-
-                    int[] pixels = convertor.gps2Pixels(points[i]);
-                    points[i].set_x(pixels[0]);
-                    points[i].set_y(pixels[1]);
-                }
-
-                //add 2 pixels for each pixels will not enter here
-
-                points[0].set_x(points[0].get_x() - 3);
-                points[0].set_y(points[0].get_y() - 3);
-
-                points[1].set_x(points[1].get_x() + 3);
-                points[1].set_y(points[1].get_y() - 3);
-
-                points[2].set_x(points[2].get_x() + 3);
-                points[2].set_y(points[2].get_y() + 3);
-
-                points[3].set_x(points[3].get_x() - 3);
-                points[3].set_y(points[3].get_y() + 3);
-
-            }
-
-        } else {
-            return;
-        }
-
-        converted = true;
     }
 
     /**

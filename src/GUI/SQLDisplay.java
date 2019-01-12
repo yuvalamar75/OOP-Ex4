@@ -17,12 +17,12 @@ public class SQLDisplay extends JFrame {
 
         this.setTitle("Statistcs");
         this.setBounds(100,100,700,240);
-        try {
+       /* try {
             stats = ImageIO.read(new File("stats.png"));
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        this.setIconImage(stats);
+        }*/
+        //this.setIconImage(stats);
         this.setVisible(true);
         this.setResizable(false);
         setLayout(new BorderLayout());

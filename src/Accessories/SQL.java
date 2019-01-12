@@ -7,6 +7,10 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Arrays;
 
+/**
+ * This class for get all the statistc from the data base of our games that played.
+ * we calculate the results for playing in algorithm mode and click mode(auto run or step by step).
+ */
 public class SQL {
     private static double[] clickModePoints= new double[9];
     private static double[] algorithmModePoints = new double[9];
@@ -27,7 +31,6 @@ public class SQL {
     // In constructr -> open new SQLDisplay.
     public SQL(){
 
-        System.out.println("int sql constructor");
         getDataRun = false;
         display = new SQLDisplay();
         getdata();
@@ -35,10 +38,10 @@ public class SQL {
     }
 
     /**
-     * This function get the data from the data-base,then calculate the average of the points for each map.
+     * This function get the data from the data-base,adding this data to the suitable array for each mode.
      */
     public  void getdata() {
-        System.out.println("int get data func");
+        System.out.println("--->Gettinig data");
         //if (!getDataRun) {
         getDataRun = true;
         String results = "";
@@ -54,7 +57,7 @@ public class SQL {
             //select data
             String allCustomersQuery = "SELECT * FROM logs;";
             ResultSet resultSet = statement.executeQuery(allCustomersQuery);
-            System.out.println("FirstID\t\tSecondID\tThirdID\t\tLogTime\t\t\t\tPoint\t\tSomeDouble");
+
             while (resultSet.next()) {
                 //Adding the data for map 1
                 if (resultSet.getDouble("SomeDouble") == 2128259830) {
@@ -64,7 +67,7 @@ public class SQL {
                         algorithmModeCounter[0]++;
                     }
                     //If its out game and its played in click mode
-                    else if (resultSet.getInt("FirstID") == 311229488 && resultSet.getInt("SecondID") == 308522418) {
+                    else if (resultSet.getInt("FirstID") == 311229488 ) {
                         clickModePoints[0] = clickModePoints[0] + resultSet.getDouble("Point");
                         clickModecounter[0]++;
                     }
@@ -82,7 +85,7 @@ public class SQL {
                         algorithmModeCounter[1]++;
                     }
                     //If its out game and its played in click mode
-                    else if (resultSet.getInt("FirstID") == 311229488 && resultSet.getInt("SecondID") == 308522418) {
+                    else if (resultSet.getInt("FirstID") == 311229488 ) {
                         clickModePoints[1] = clickModePoints[1] + resultSet.getDouble("Point");
                         clickModecounter[1]++;
                     }
@@ -101,7 +104,7 @@ public class SQL {
                         algorithmModeCounter[2]++;
                     }
                     //If its out game and its played in click mode
-                    else if (resultSet.getInt("FirstID") == 311229488 && resultSet.getInt("SecondID") == 308522418) {
+                    else if (resultSet.getInt("FirstID") == 311229488 ) {
                         clickModePoints[2] = clickModePoints[2] + resultSet.getDouble("Point");
                         clickModecounter[2]++;
                     }
@@ -120,7 +123,7 @@ public class SQL {
                         algorithmModeCounter[3]++;
                     }
                     //If its out game and its played in click mode
-                    else if (resultSet.getInt("FirstID") == 311229488 && resultSet.getInt("SecondID") == 308522418) {
+                    else if (resultSet.getInt("FirstID") == 311229488 ) {
                         clickModePoints[3] = clickModePoints[3] + resultSet.getDouble("Point");
                         clickModecounter[3]++;
                     }
@@ -139,7 +142,7 @@ public class SQL {
                         algorithmModeCounter[4]++;
                     }
                     //If its out game and its played in click mode
-                    else if (resultSet.getInt("FirstID") == 311229488 && resultSet.getInt("SecondID") == 308522418) {
+                    else if (resultSet.getInt("FirstID") == 311229488 ) {
                         clickModePoints[4] = clickModePoints[4] + resultSet.getDouble("Point");
                         clickModecounter[4]++;
                     }
@@ -158,7 +161,7 @@ public class SQL {
                         algorithmModeCounter[5]++;
                     }
                     //If its out game and its played in click mode
-                    else if (resultSet.getInt("FirstID") == 311229488 && resultSet.getInt("SecondID") == 308522418) {
+                    else if (resultSet.getInt("FirstID") == 311229488 ) {
                         clickModePoints[5] = clickModePoints[5] + resultSet.getDouble("Point");
                         clickModecounter[5]++;
                     }
@@ -177,7 +180,7 @@ public class SQL {
                         algorithmModeCounter[6]++;
                     }
                     //If its out game and its played in click mode
-                    else if (resultSet.getInt("FirstID") == 311229488 && resultSet.getInt("SecondID") == 308522418) {
+                    else if (resultSet.getInt("FirstID") == 311229488 ) {
                         clickModePoints[6] = clickModePoints[6] + resultSet.getDouble("Point");
                         clickModecounter[6]++;
                     }
@@ -193,11 +196,10 @@ public class SQL {
                     //If its our game and its played in algorithm mode
                     if (resultSet.getInt("FirstID") == 308522416 && resultSet.getInt("SecondID") == 311229488) {
                         algorithmModePoints[7] = algorithmModePoints[7] + resultSet.getDouble("Point");
-                        System.out.println(resultSet.getDouble("Point"));
                         algorithmModeCounter[7]++;
                     }
                     //If its out game and its played in click mode
-                    else if (resultSet.getInt("FirstID") == 311229488 && resultSet.getInt("SecondID") == 308522418) {
+                    else if (resultSet.getInt("FirstID") == 311229488 ) {
                         clickModePoints[7] = clickModePoints[7] + resultSet.getDouble("Point");
                         clickModecounter[7]++;
                     }
@@ -216,7 +218,7 @@ public class SQL {
                         algorithmModeCounter[8]++;
                     }
                     //If its out game and its played in click mode
-                    else if (resultSet.getInt("FirstID") == 311229488 && resultSet.getInt("SecondID") == 308522418) {
+                    else if (resultSet.getInt("FirstID") == 311229488 ) {
                         clickModePoints[8] = clickModePoints[8] + resultSet.getDouble("Point");
                         clickModecounter[8]++;
                     }
@@ -270,11 +272,13 @@ public class SQL {
 
             }
             int totalGamePlayed = clickModecounter[i] + algorithmModeCounter[i];
-            results = results + "   " + (i + 1) + ")" + "\t\t\t\t" + algorithmAVGS + "\t\t\t       " + clickModeAVGS + "\t\t\t     " + generalAVGS + "\t\t\t        " + totalGamePlayed + "\n";
+            results = results + "   " + (i + 1) + ")" + "\t\t\t\t" + algorithmAVGS + "\t\t\t       " + clickModeAVGS + "\t\t     " + generalAVGS + "\t\t        " + totalGamePlayed + "\n";
             // frame.getTextArea().append(results);
 
 
         }
+        display.getText().append(results);
+        //clear the arrays data for open the statistc again
        for(int i = 0 ; i < 9 ; i++){
             clickModecounter[i] = 0;
             clickModePoints[i] = 0;
@@ -284,7 +288,7 @@ public class SQL {
             generalPoints[i] = 0;
 
         }
-        display.getText().append(results);
+
     }
     //}
 }

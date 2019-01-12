@@ -150,7 +150,7 @@ public class Controller implements Observer {
      * init game from existing file
      */
     private void initGame() {
-        JFileChooser jfc = new JFileChooser();
+        JFileChooser jfc = new JFileChooser("C:\\Users\\1234\\Desktop\\OOP-Ex4\\Resources");
         String pathFile = "";
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
                 "CSV files (*csv)", "csv");
@@ -181,7 +181,7 @@ public class Controller implements Observer {
     private void initServer() {
 
         if (firstTimeRun) { // Hence player is not null
-            play.setIDs(308522416, 311229488);
+            play.setIDs(311229488, 311229488);
             play.setInitLocation(game.getPlayer().getPoint().get_y(), game.getPlayer().getPoint().get_x());
             play.start();
         }

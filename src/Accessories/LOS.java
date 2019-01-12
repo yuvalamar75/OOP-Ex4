@@ -50,7 +50,7 @@ public class LOS {
      * @param target vertice
      * @return false iff they see each other
      */
-    public boolean LOS(Point3D source, Point3D target){
+    public boolean isIntersects(Point3D source, Point3D target){
 
         Point2D sourceP = new Point((int)source.get_x(),(int) source.get_y());
         Point2D targetP = new Point((int)target.get_x(),(int) target.get_y());
@@ -61,7 +61,10 @@ public class LOS {
                 return true;
             }
         }
+
         return false;
     }
+
+
 
 }
