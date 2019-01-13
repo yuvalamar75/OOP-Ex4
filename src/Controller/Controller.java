@@ -38,8 +38,9 @@ public class Controller implements Observer {
     private Target target;
     private boolean firstTimeRun = true, runThread = false, runAlgo = false;
 
-    public Controller() {
+    public Controller() {}
 
+    public void startGame(){
         game = new Game();
         map = new Map();
         board = new Board(game, map);
@@ -54,8 +55,7 @@ public class Controller implements Observer {
 
     /** Update from board on mouse clicked
      * the observer object just changed  start the update function
-      */
-
+     */
     @Override
     public void update(Observable o, Object arg) {
         nextStep = ((nextStep) o).getPoint();
@@ -183,7 +183,7 @@ public class Controller implements Observer {
     private void initServer() {
 
         if (firstTimeRun) { // Hence player is not null
-            play.setIDs(311229488, 311229488);
+            play.setIDs(308522416,311229488);
             play.setInitLocation(game.getPlayer().getPoint().get_y(), game.getPlayer().getPoint().get_x());
             play.start();
         }
@@ -291,7 +291,6 @@ public class Controller implements Observer {
                     ArrayList<String> path = target.getPath();
 
                         if (path.size() == 1 && isIn(targetPoint) && getOut == false) {
-                            //System.out.println("this dis is : "+ target.getDistance());
                             while (isIn(targetPoint) && play.isRuning() && player.getPoint().distance3DInGps(targetPoint) > 1)
                             {
 
