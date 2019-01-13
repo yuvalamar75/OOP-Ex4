@@ -34,9 +34,9 @@ public class LOS {
     //this function builds array with all rectangles
     private void buildRectangles(){
         for (Block block : game.getBlocks()) {
-            int[] pixels = convertor.gps2Pixels(block.getTopLeft());
-            int[] pixelsHeight = convertor.gps2Pixels(block.getBottomLeft());
-            int[] pixelsWidth = convertor.gps2Pixels(block.getTopRight());
+            int [] pixels = convertor.gps2Pixels(block.getTopLeft());
+            int [] pixelsHeight = convertor.gps2Pixels(block.getBottomLeft());
+            int [] pixelsWidth = convertor.gps2Pixels(block.getTopRight());
             int width = Math.abs(pixelsWidth[0] - pixels[0]);
             int height = Math.abs(pixelsHeight[1] - pixels[1]);
             Rectangle2D rec = new Rectangle(pixels[0], pixels[1], width, height);

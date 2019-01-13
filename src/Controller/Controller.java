@@ -68,7 +68,9 @@ public class Controller implements Observer {
         }
 
         if (board.isRunStepByStep()) {
-            doNextStep();
+            if(play.isRuning()) {
+                doNextStep();
+            }
         }
 
         if (board.isAutoRun()) {
