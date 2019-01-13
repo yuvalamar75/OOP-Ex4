@@ -30,7 +30,7 @@ public class Map {
 
     public Map(){
         try {
-            myMap = ImageIO.read(new File("Ariel1.png"));
+            myMap = ImageIO.read(new File("Resources\\Ariel1.png"));
         }catch (IOException e){
             e.printStackTrace();
         }
