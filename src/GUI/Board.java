@@ -54,25 +54,25 @@ public class Board extends JPanel implements MouseListener {
         }
 
         try {
-            cherry = ImageIO.read(new File("cherry.png"));
+            cherry = ImageIO.read(new File("Resources\\cherry.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         try {
-            pacman = ImageIO.read(new File("badpacman.png"));
+            pacman = ImageIO.read(new File("Resources\\badpacman.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         try {
-            ghost = ImageIO.read(new File("ghost.png"));
+            ghost = ImageIO.read(new File("Resources\\ghost.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         try {
-            player = ImageIO.read(new File("pacman.png"));
+            player = ImageIO.read(new File("Resources\\pacman.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -110,7 +110,6 @@ public class Board extends JPanel implements MouseListener {
             }
 
             for (Block block : game.getBlocks()) {
-                //Point3D p = new  Point3D(block.getTopLeft().x(),block.getTopLeft().get_y(),0);
                 int[] pixels = convertor.gps2Pixels(block.getTopLeft());
                 int[] pixelsHeight = convertor.gps2Pixels(block.getBottomLeft());
                 int[] pixelsWidth = convertor.gps2Pixels(block.getTopRight());
