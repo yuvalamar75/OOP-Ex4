@@ -105,6 +105,7 @@ public class GraphBuilder {
     private void buildGraph(Target target) {
         Graph g = new Graph();
 
+        //add the nodes to the graph
         for (int i = 0; i < vertices.size() ; i++) {
             if (vertices.get(i).getNeigbours().size() != 0) {
                 Node d = new Node("" + i);
@@ -117,6 +118,7 @@ public class GraphBuilder {
         a.set_id((vertices.size() -1));
         g.add(a);
 
+        //add the edges
         for (int i = 0; i < vertices.size(); i++) {
             GraphNode curr = vertices.get(i);
             if (curr.getNeigbours().size() != 0 ) {
@@ -125,6 +127,7 @@ public class GraphBuilder {
                 }
             }
         }
+
         // find the minimums path to the fruit
         Graph_Algo.dijkstra(g, ""+ 0);
         Node b = g.getNodeByName("" + (vertices.size()-1));
