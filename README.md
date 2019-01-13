@@ -12,7 +12,8 @@ hit the show statics button to do so.
 
 # UML diagram 
 
-![uml diagram](https://user-images.githubusercontent.com/44939281/51085014-eab8ce00-173b-11e9-9897-759ceba46ece.jpg)
+![clas diagram](https://user-images.githubusercontent.com/44839004/51085061-d88b5f80-173c-11e9-9778-83f7ba489b0f.jpg)
+
 
 Enjoy!
 
